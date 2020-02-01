@@ -5,7 +5,7 @@ includes lowercase ASCII characters, but will be extended...
 
 Big shouts to the [opentype.js team](https://opentype.js.org/), simplifying OTF file generation!
 
-![screenshot](https://raw.githubusercontent.com/thi-ng/fontgen/master/assets/0.0.1.png)
+![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.1.png)
 
 ## Status
 
@@ -18,8 +18,8 @@ WIP / Alpha
 ## Building
 
 ```bash
-git clone https://github.com/thi-ng/fontgen.git
-cd fontgen
+git clone https://github.com/thi-ng/font.git
+cd font
 yarn install
 yarn build
 ```
