@@ -1,0 +1,26 @@
+{
+    "name": "@thi.ng/logofont",
+    "version": "0.0.1",
+    "main": "index.js",
+    "license": "Apache-2.0",
+    "author": "Karsten Schmidt <k+npm@thi.ng>",
+    "dependencies": {
+        "@thi.ng/geom": "^1.7.10",
+        "@thi.ng/transducers": "^6.2.1",
+        "opentype.js": "^1.1.0"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.2",
+        "@types/opentype.js": "0.7.0",
+        "typescript": "^3.7.5"
+    },
+    "font": {
+        "familyName": "thi.ng",
+        "styleName": "Regular",
+        "designer": "Karsten Schmidt",
+        "designerURL": "http://thi.ng",
+        "copyright": "(c) 2020 Karsten Schmidt",
+        "license": "SIL Open Font License 1.1",
+        "licenseURL": "https://opensource.org/licenses/OFL-1.1"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "outDir": ".",
+        "declaration": true,
+        "declarationMap": true,
+        "experimentalDecorators": true,
+        "noUnusedParameters": false,
+        "noUnusedLocals": false,
+        "preserveConstEnums": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "strictNullChecks": true
+    },
+    "include": ["./src/**/*.ts"],
+    "exclude": ["./**/node_modules"]
+}
