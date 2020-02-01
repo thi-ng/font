@@ -4,6 +4,9 @@
     "main": "index.js",
     "license": "Apache-2.0",
     "author": "Karsten Schmidt <k+npm@thi.ng>",
+    "scripts": {
+        "build": "mkdir -p build && ts-node src/index.ts"
+    },
     "dependencies": {
         "@thi.ng/geom": "^1.7.10",
         "@thi.ng/transducers": "^6.2.1",
@@ -12,6 +15,7 @@
     "devDependencies": {
         "@types/node": "^12.12.2",
         "@types/opentype.js": "0.7.0",
+        "ts-node": "^8.6.2",
         "typescript": "^3.7.5"
     },
     "font": {
