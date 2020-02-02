@@ -3,9 +3,10 @@ import { map, range } from "@thi.ng/transducers";
 import { readFileSync, writeFileSync } from "fs";
 import { Font, Glyph, Path } from "opentype.js";
 
+// dot radius
 const R = 50;
 const D = 2 * R;
-const GAP = 12;
+const GAP = 15;
 const DGAP = D + GAP * 2;
 const X_HEIGHT = 6 * R + 5 * GAP;
 const THETA = Math.atan2(X_HEIGHT, DGAP);
@@ -19,32 +20,32 @@ const OFFSETS = [...map(rowPoint, range(-4, 11))];
 
 const line = (x: number, y1: number, y2: number) => {
     const path = new Path();
-    const a = OFFSETS[y1];
-    const b = OFFSETS[y2];
-    path.moveTo(x + a[0], a[1]);
-    path.lineTo(x + b[0], b[1]);
-    path.lineTo(x + D + b[0], b[1]);
-    path.lineTo(x + D + a[0], a[1]);
+    const [ax, ay] = OFFSETS[y1];
+    const [bx, by] = OFFSETS[y2];
+    path.moveTo(x + ax, ay);
+    path.lineTo(x + bx, by);
+    path.lineTo(x + D + bx, by);
+    path.lineTo(x + D + ax, ay);
     path.close();
     return path;
 };
 
 const bridge = (x: number, y: number, w: number) => {
     const path = new Path();
-    const a = OFFSETS[y];
-    const b = OFFSETS[y + 1];
+    const [ax, ay] = OFFSETS[y];
+    const [bx, by] = OFFSETS[y + 1];
     w = w * D - (w - 1) * GAP;
-    path.moveTo(x + a[0], a[1]);
-    path.lineTo(x + b[0], b[1]);
-    path.lineTo(x + w + b[0], b[1]);
-    path.lineTo(x + w + a[0], a[1]);
+    path.moveTo(x + ax, ay);
+    path.lineTo(x + bx, by);
+    path.lineTo(x + w + bx, by);
+    path.lineTo(x + w + ax, ay);
     path.close();
     return path;
 };
 
 const dot = (x: number, y: number) => {
-    const segments = asCubic(circle([x, y], R));
     const path = new Path();
+    const segments = asCubic(circle([x, y], R));
     path.moveTo(segments[0].points[0][0], segments[0].points[0][1]);
     for (let s of segments) {
         const [_, b, c, d] = s.points;
@@ -60,25 +61,38 @@ const dot = (x: number, y: number) => {
 // > => forward x
 // hb3 => h bridge @ row b span=3
 
-const defGlyph = (id: number, fmt: string, x = 0) => {
+interface GlyphDef {
+    id: number;
+    g: string;
+    x?: number;
+}
+
+const defGlyph = ({ id, g, x }: GlyphDef) => {
+    x = x || 0;
     const path = new Path();
-    for (let i = 0; i < fmt.length; ) {
-        const f = fmt[i];
-        if (f === ">") {
-            x += DGAP;
-            i++;
-        } else if (f === ".") {
-            const [ox, oy] = OFFSETS[parseInt(fmt[i + 1], 16)];
-            path.extend(dot(x + ox + R, oy));
-            i += 2;
-        } else if (f === "h") {
-            const y = parseInt(fmt.substr(i + 1, 2), 16);
-            path.extend(bridge(x, y >> 4, y & 0xf));
-            i += 3;
-        } else {
-            const y = parseInt(fmt.substr(i, 2), 16);
-            path.extend(line(x, y >> 4, y & 0xf));
-            i += 2;
+    for (let i = 0; i < g.length; ) {
+        switch (g[i]) {
+            case ">":
+                x += DGAP;
+                i++;
+                break;
+            case ".": {
+                const [ox, oy] = OFFSETS[parseInt(g[i + 1], 16)];
+                path.extend(dot(x + ox + R, oy));
+                i += 2;
+                break;
+            }
+            case "h": {
+                const y = parseInt(g.substr(i + 1, 2), 16);
+                path.extend(bridge(x, y >> 4, y & 0xf));
+                i += 3;
+                break;
+            }
+            default: {
+                const y = parseInt(g.substr(i, 2), 16);
+                path.extend(line(x, y >> 4, y & 0xf));
+                i += 2;
+            }
         }
     }
     return new Glyph({
@@ -96,34 +110,36 @@ const glyphs = [
         advanceWidth: 650,
         path: new Path()
     }),
-    defGlyph(0x2e, ".5"),
-    defGlyph(0x3a, ".6.8"),
-    defGlyph(0x41, "48h42h92>4a"),
-    defGlyph(0x42, "4eh42>4a"),
-    defGlyph(0x43, "4ah42h92>468a"),
-    defGlyph(0x44, "4ah42>4e"),
-    defGlyph(0x45, "4ah42h92>456a"),
-    defGlyph(0x46, "4eh92hd2>ce"),
-    defGlyph(0x47, "4a02h02h92>0a"),
-    defGlyph(0x48, "4eh92>4a"),
-    defGlyph(0x49, "4a.b"),
-    defGlyph(0x4a, "029ah02h92>0a.b"),
-    defGlyph(0x4b, "4eh72>8a47"),
-    defGlyph(0x4c, "4e"),
-    defGlyph(0x4d, "4ah93>4a>4a"),
-    defGlyph(0x4e, "4ah92>4a"),
-    defGlyph(0x4f, "4ah42h92>4a"),
-    defGlyph(0x50, "0ah92>4a"),
-    defGlyph(0x51, "4ah92>0a"),
-    defGlyph(0x52, "4ah92>8a"),
-    defGlyph(0x53, "7ah42h92>47"),
-    defGlyph(0x54, "hb2>4e", -DGAP),
-    defGlyph(0x55, "4ah42>4a"),
-    defGlyph(0x56, "4ah42>5a"),
-    defGlyph(0x57, "4ah43>4a>4a"),
-    defGlyph(0x58, "478ah72>478a"),
-    defGlyph(0x59, "4ah42>0a"),
-    defGlyph(0x5a, "47h42h92>7a")
+    ...map(defGlyph, [
+        { id: 0x2e, g: ".5" },
+        { id: 0x3a, g: ".6.8" },
+        { id: 0x41, g: "48h42h92>4a" },
+        { id: 0x42, g: "4eh42>4a" },
+        { id: 0x43, g: "4ah42h92>468a" },
+        { id: 0x44, g: "4ah42>4e" },
+        { id: 0x45, g: "4ah42h92>456a" },
+        { id: 0x46, g: "4eh92hd2>ce" },
+        { id: 0x47, g: "4a02h02h92>0a" },
+        { id: 0x48, g: "4eh92>4a" },
+        { id: 0x49, g: "4a.b" },
+        { id: 0x4a, g: "029ah02h92>0a.b" },
+        { id: 0x4b, g: "4eh72>8a47" },
+        { id: 0x4c, g: "4e" },
+        { id: 0x4d, g: "4ah93>4a>4a" },
+        { id: 0x4e, g: "4ah92>4a" },
+        { id: 0x4f, g: "4ah42h92>4a" },
+        { id: 0x50, g: "0ah92>4a" },
+        { id: 0x51, g: "4ah92>0a" },
+        { id: 0x52, g: "4ah92>8a" },
+        { id: 0x53, g: "467ah42h92>478a" },
+        { id: 0x54, g: "hb2>4e", x: -DGAP },
+        { id: 0x55, g: "4ah42>4a" },
+        { id: 0x56, g: "4ah42>5a" },
+        { id: 0x57, g: "4ah43>4a>4a" },
+        { id: 0x58, g: "478ah72>478a" },
+        { id: 0x59, g: "4ah42>0a" },
+        { id: 0x5a, g: "47h42h92>7a" }
+    ])
 ];
 
 const pkg = JSON.parse(readFileSync("package.json").toString());
