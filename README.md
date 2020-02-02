@@ -1,12 +1,13 @@
 # @thi.ng/font
 
 Generated, modular font based on thi.ng wordmark. Currently only
-includes lowercase ASCII characters (mapped to uppercase chars), but will be extended...
+includes lowercase ASCII characters (also mapped to uppercase) and some
+punctuation, but will be extended...
 
 Big shouts to the [opentype.js team](https://opentype.js.org/) for
 simplifying OTF file generation!
 
-![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.2.png)
+![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.3.png)
 
 ## Status
 
@@ -14,7 +15,7 @@ WIP / Alpha
 
 ## Download
 
-[Download font as OTF](./font/thing-regular-0.0.2.otf)
+[Download font as OTF](./font/thing-regular-0.0.3.otf) (v0.0.3)
 
 ## Building
 
@@ -51,17 +52,19 @@ Grammar string parsing rules:
 (All coords as 4-bit hex nibbles)
 
 -   `0e` => vertical line from row 0x00 -> row 0x0e
--   `hb3` => h bridge @ row 0x0b width = 3
+-   `hb3` => h bridge @ row 0x0b width = 3 (aka multiple of global `R` param)
+-   `Hb3` => same as `h`, but shifted right by `R`
 -   `.7` => dot @ row 0x07
 -   `>` => advance X (next column)
 
-For example, this string: `48h42h92>4a` compiles to:
+For example, the lowercase `a` is encoded by this string: `58h44h94>59`
+and compiles to:
 
--   vertical line from 4 -> 8
--   horizontal bridge in row 4, w=2
--   horizontal bridge in row 9, w=2
+-   vertical line from 5 -> 8
+-   horizontal bridge in row 4, w=4
+-   horizontal bridge in row 9, w=4
 -   advance to next column
--   vertical line from 4 -> 10
+-   vertical line from 5 -> 9
 
 ## Licenses
 
