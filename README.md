@@ -1,7 +1,7 @@
 # @thi.ng/font
 
 Generated, modular font based on thi.ng wordmark. Currently only
-includes lowercase ASCII characters, but will be extended...
+includes lowercase ASCII characters (mapped to uppercase chars), but will be extended...
 
 Big shouts to the [opentype.js team](https://opentype.js.org/) for
 simplifying OTF file generation!
