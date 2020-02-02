@@ -1,27 +1,33 @@
 import { asCubic, circle } from "@thi.ng/geom";
-import { map, range } from "@thi.ng/transducers";
+import { map, mapcat, range } from "@thi.ng/transducers";
+import { maddN2, mulN2, normalize } from "@thi.ng/vectors";
 import { readFileSync, writeFileSync } from "fs";
 import { Font, Glyph, Path } from "opentype.js";
 
 // dot radius
 const R = 50;
 const D = 2 * R;
-const GAP = 15;
-const DGAP = D + GAP * 2;
+const GAP = 33;
+const COL_WIDTH = D + GAP;
 const X_HEIGHT = 6 * R + 5 * GAP;
-const THETA = Math.atan2(X_HEIGHT, DGAP);
+const DIR = normalize(null, [COL_WIDTH, X_HEIGHT]);
+const MIN = mulN2([], DIR, -4 * R - 3 * GAP);
 
-const rowPoint = (row: number) => {
-    const y = row * R + Math.sign(row) * Math.max(0, Math.abs(row) - 1) * GAP;
-    return [Math.cos(THETA) * y, y];
-};
+const rowPoint = (row: number) =>
+    maddN2([], DIR, row * R + (row - 1) * GAP, MIN);
 
-const OFFSETS = [...map(rowPoint, range(-4, 11))];
+const GRID = [...map(rowPoint, range(15))];
+const DOTGRID = [
+    ...map((i) => {
+        const p = rowPoint(i + 0.5);
+        return [p[0] + R, p[1]];
+    }, range(15))
+];
 
 const line = (x: number, y1: number, y2: number) => {
     const path = new Path();
-    const [ax, ay] = OFFSETS[y1];
-    const [bx, by] = OFFSETS[y2];
+    const [ax, ay] = GRID[y1];
+    const [bx, by] = GRID[y2];
     path.moveTo(x + ax, ay);
     path.lineTo(x + bx, by);
     path.lineTo(x + D + bx, by);
@@ -30,11 +36,12 @@ const line = (x: number, y1: number, y2: number) => {
     return path;
 };
 
-const bridge = (x: number, y: number, w: number) => {
+const bridge = (x: number, y: number, span: number) => {
     const path = new Path();
-    const [ax, ay] = OFFSETS[y];
-    const [bx, by] = OFFSETS[y + 1];
-    w = w * D - (w - 1) * GAP;
+    const [ax, ay] = GRID[y];
+    const [bx, by] = GRID[y + 1];
+    const span2 = span >> 1;
+    const w = span * R + (span2 - (span & 1 ? 0 : 1)) * GAP;
     path.moveTo(x + ax, ay);
     path.lineTo(x + bx, by);
     path.lineTo(x + w + bx, by);
@@ -54,37 +61,42 @@ const dot = (x: number, y: number) => {
     return path;
 };
 
-// format:
+// grammar:
 // all coords as 4bit hex
 // 0a => vertical line from row 0 -> row a
 // .6 => dot at row 6
 // > => forward x
-// hb3 => h bridge @ row b span=3
+// hb3 => h bridge @ row b span=3 (3x R)
+// Hb3 => like `h` but shifted right by R
 
 interface GlyphDef {
     id: number;
     g: string;
     x?: number;
+    width?: number;
 }
 
-const defGlyph = ({ id, g, x }: GlyphDef) => {
+const defGlyph = ({ id, g, x, width }: GlyphDef) => {
     x = x || 0;
     const path = new Path();
     for (let i = 0; i < g.length; ) {
         switch (g[i]) {
             case ">":
-                x += DGAP;
+                x += COL_WIDTH;
                 i++;
                 break;
             case ".": {
-                const [ox, oy] = OFFSETS[parseInt(g[i + 1], 16)];
-                path.extend(dot(x + ox + R, oy));
+                const [ox, oy] = DOTGRID[parseInt(g[i + 1], 16)];
+                path.extend(dot(x + ox, oy));
                 i += 2;
                 break;
             }
-            case "h": {
+            case "h":
+            case "H": {
                 const y = parseInt(g.substr(i + 1, 2), 16);
-                path.extend(bridge(x, y >> 4, y & 0xf));
+                path.extend(
+                    bridge(x + (g[i] === "H" ? R : 0), y >> 4, y & 0xf)
+                );
                 i += 3;
                 break;
             }
@@ -98,7 +110,7 @@ const defGlyph = ({ id, g, x }: GlyphDef) => {
     return new Glyph({
         name: String.fromCharCode(id),
         unicode: id,
-        advanceWidth: x + DGAP,
+        advanceWidth: width || x + COL_WIDTH,
         path
     });
 };
@@ -110,36 +122,64 @@ const glyphs = [
         advanceWidth: 650,
         path: new Path()
     }),
+    new Glyph({
+        name: "space",
+        unicode: 32,
+        advanceWidth: 2 * COL_WIDTH,
+        path: new Path()
+    }),
     ...map(defGlyph, [
-        { id: 0x2e, g: ".5" },
-        { id: 0x3a, g: ".6.8" },
-        { id: 0x41, g: "48h42h92>4a" },
-        { id: 0x42, g: "4eh42>4a" },
-        { id: 0x43, g: "4ah42h92>468a" },
-        { id: 0x44, g: "4ah42>4e" },
-        { id: 0x45, g: "4ah42h92>456a" },
-        { id: 0x46, g: "4eh92hd2>ce" },
-        { id: 0x47, g: "4a02h02h92>0a" },
-        { id: 0x48, g: "4eh92>4a" },
-        { id: 0x49, g: "4a.b" },
-        { id: 0x4a, g: "029ah02h92>0a.b" },
-        { id: 0x4b, g: "4eh72>8a47" },
-        { id: 0x4c, g: "4e" },
-        { id: 0x4d, g: "4ah93>4a>4a" },
-        { id: 0x4e, g: "4ah92>4a" },
-        { id: 0x4f, g: "4ah42h92>4a" },
-        { id: 0x50, g: "0ah92>4a" },
-        { id: 0x51, g: "4ah92>0a" },
-        { id: 0x52, g: "4ah92>8a" },
-        { id: 0x53, g: "467ah42h92>478a" },
-        { id: 0x54, g: "hb2>4e", x: -DGAP },
-        { id: 0x55, g: "4ah42>4a" },
-        { id: 0x56, g: "4ah42>5a" },
-        { id: 0x57, g: "4ah43>4a>4a" },
-        { id: 0x58, g: "478ah72>478a" },
-        { id: 0x59, g: "4ah42>0a" },
-        { id: 0x5a, g: "47h42h92>7a" }
-    ])
+        // punctuation
+        { id: 0x28, g: "H43Hd35d>" },
+        { id: 0x29, g: "h43hd3>5d" },
+        { id: 0x2d, g: "h74>" },
+        { id: 0x2e, g: ".4" },
+        { id: 0x2f, g: "0e" },
+        { id: 0x3a, g: ".5.7" },
+        { id: 0x3d, g: "h54h74>" },
+        { id: 0x5b, g: "h44hd45d>" },
+        { id: 0x5d, g: "h44hd4>5d" },
+        { id: 0x5f, g: "h44>" },
+        // digits
+        { id: 0x30, g: "5dh44hd4>5d" },
+        { id: 0x31, g: "Hd3>4d", x: -R }
+    ]),
+    ...mapcat(
+        (spec) => [
+            // orig
+            defGlyph(spec),
+            // duplicate as lowercase
+            defGlyph({ ...spec, id: spec.id + 0x20 })
+        ],
+        [
+            { id: 0x41, g: "58h44h94>59" },
+            { id: 0x42, g: "5eh44>5a" },
+            { id: 0x43, g: "5ah44h94>5689" },
+            { id: 0x44, g: "5ah44>5e" },
+            { id: 0x45, g: "5ah44h94>69" },
+            { id: 0x46, g: "49adh93hd4>cd", width: 2 * COL_WIDTH - R },
+            { id: 0x47, g: "4912h04h94>19" },
+            { id: 0x48, g: "49aeh94>49" },
+            { id: 0x49, g: "4a.b" },
+            { id: 0x4a, g: "12h04H93>19.b", x: -R },
+            { id: 0x4b, g: "478eh73>8a47" },
+            { id: 0x4c, g: "4e" },
+            { id: 0x4d, g: "49h96>49>49" },
+            { id: 0x4e, g: "49h94>49" },
+            { id: 0x4f, g: "59h44h94>59" },
+            { id: 0x50, g: "09h94>49" },
+            { id: 0x51, g: "49h94>09" },
+            { id: 0x52, g: "49h94>89" },
+            { id: 0x53, g: "5679h44h94>5789" },
+            { id: 0x54, g: "Hb3>4bce", x: -COL_WIDTH },
+            { id: 0x55, g: "5ah44>5a" },
+            { id: 0x56, g: "5ah43>5a" },
+            { id: 0x57, g: "5ah46>5a>5a" },
+            { id: 0x58, g: "478aH72>478a" },
+            { id: 0x59, g: "5ah44>045a" },
+            { id: 0x5a, g: "57h44h94>79" }
+        ]
+    )
 ];
 
 const pkg = JSON.parse(readFileSync("package.json").toString());
@@ -147,9 +187,9 @@ const pkg = JSON.parse(readFileSync("package.json").toString());
 const font = new Font({
     ...pkg.font,
     version: pkg.version,
-    unitsPerEm: 1000,
-    ascender: 650,
-    descender: -200,
+    unitsPerEm: 1024,
+    ascender: COL_WIDTH * 6,
+    descender: -COL_WIDTH * 3,
     glyphs: glyphs
 });
 
