@@ -1,8 +1,9 @@
 # @thi.ng/font
 
-Generated, modular font based on thi.ng wordmark. Currently only
-includes lowercase ASCII characters (also mapped to uppercase) and some
-punctuation, but will be extended...
+Generated, modular font based on [thi.ng
+wordmark](https://github.com/thi-ng/branding/). Currently only includes
+lowercase ASCII characters (also mapped to uppercase), some punctuation
+and some digits, but will be extended...
 
 Big shouts to the [opentype.js team](https://opentype.js.org/) for
 simplifying OTF file generation!
@@ -44,7 +45,7 @@ adjustable via these global params:
 
 The slant angle is defined by the direction vector `[2 * R + HGAP,
 X_HEIGHT]` (~19 deg in the default config). This ensures that in the
-sequence `i.`, the two dots are horizontally aligned (as in the `thi.ng`
+sequence `i.` the two dots are horizontally aligned (as in the `thi.ng`
 wordmark).
 
 There're 3 basic shape types:
