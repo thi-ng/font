@@ -24,12 +24,19 @@ WIP / Alpha
 git clone https://github.com/thi-ng/font.git
 cd font
 yarn install
+
+# generate font
 yarn build
+
+# generate debug grid
+yarn debug
 ```
 
-(Font will be written to `/build`...)
+(Assets will be written to `/build`...)
 
 ## Glyph definition / configuration
+
+![layout grid](https://raw.githubusercontent.com/thi-ng/font/master/assets/grid.png)
 
 All glyphs are defined via a grid of N columns x 15 rows, a set of
 global parametric relationships defining dot radius, slant angle and

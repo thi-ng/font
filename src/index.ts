@@ -1,120 +1,13 @@
-import { asCubic, circle } from "@thi.ng/geom";
-import { map, mapcat, range } from "@thi.ng/transducers";
-import { maddN2, mulN2, normalize } from "@thi.ng/vectors";
+import { map, mapcat } from "@thi.ng/transducers";
 import { readFileSync, writeFileSync } from "fs";
 import { Font, Glyph, Path } from "opentype.js";
-
-// dot radius
-const R = 50;
-const D = 2 * R;
-const HGAP = 30;
-const VGAP = 15;
-const COL_WIDTH = D + HGAP;
-const X_HEIGHT = 6 * R + 5 * VGAP;
-const DIR = normalize(null, [COL_WIDTH, X_HEIGHT]);
-const MIN = mulN2([], DIR, -4 * R - 3 * VGAP);
-
-const rowPoint = (row: number) =>
-    maddN2([], DIR, row * R + (row - 1) * VGAP, MIN);
-
-const GRID = [...map(rowPoint, range(15))];
-const DOTGRID = [
-    ...map((i) => {
-        const p = rowPoint(i + 0.5);
-        return [p[0] + R, p[1]];
-    }, range(15))
-];
-
-const line = (x: number, y1: number, y2: number) => {
-    const path = new Path();
-    const [ax, ay] = GRID[y1];
-    const [bx, by] = GRID[y2];
-    path.moveTo(x + ax, ay);
-    path.lineTo(x + bx, by);
-    path.lineTo(x + D + bx, by);
-    path.lineTo(x + D + ax, ay);
-    path.close();
-    return path;
-};
-
-const bridge = (x: number, y: number, span: number, xoff = 0) => {
-    const path = new Path();
-    const [ax, ay] = GRID[y];
-    const [bx, by] = GRID[y + 1];
-    const span2 = span >> 1;
-    const numGaps = span2 - (span & 1 || xoff !== 0 ? 0 : 1);
-    const w = span * R + numGaps * HGAP;
-    x += xoff;
-    path.moveTo(x + ax, ay);
-    path.lineTo(x + bx, by);
-    path.lineTo(x + w + bx, by);
-    path.lineTo(x + w + ax, ay);
-    path.close();
-    return path;
-};
-
-const dot = (x: number, y: number) => {
-    const path = new Path();
-    const segments = asCubic(circle([x, y], R));
-    path.moveTo(segments[0].points[0][0], segments[0].points[0][1]);
-    for (let s of segments) {
-        const [_, b, c, d] = s.points;
-        path.bezierCurveTo(b[0], b[1], c[0], c[1], d[0], d[1]);
-    }
-    return path;
-};
-
-// grammar:
-// all coords as 4bit hex
-// 0a => vertical line from row 0 -> row a
-// .6 => dot at row 6
-// > => forward x
-// hb3 => h bridge @ row b span=3 (3x R)
-// Hb3 => like `h` but shifted right by R
-
-interface GlyphDef {
-    id: number;
-    g: string;
-    x?: number;
-    width?: number;
-}
-
-const defGlyph = ({ id, g, x, width }: GlyphDef) => {
-    x = x || 0;
-    const path = new Path();
-    for (let i = 0; i < g.length; ) {
-        switch (g[i]) {
-            case ">":
-                x += COL_WIDTH;
-                i++;
-                break;
-            case ".": {
-                const [ox, oy] = DOTGRID[parseInt(g[i + 1], 16)];
-                path.extend(dot(x + ox, oy));
-                i += 2;
-                break;
-            }
-            case "h":
-            case "H": {
-                const y = parseInt(g.substr(i + 1, 2), 16);
-                path.extend(bridge(x, y >> 4, y & 0xf, g[i] === "H" ? R : 0));
-                i += 3;
-                break;
-            }
-            default: {
-                const y = parseInt(g.substr(i, 2), 16);
-                path.extend(line(x, y >> 4, y & 0xf));
-                i += 2;
-            }
-        }
-    }
-    return new Glyph({
-        name: String.fromCharCode(id),
-        unicode: id,
-        advanceWidth: width || x + COL_WIDTH,
-        path
-    });
-};
+import {
+    COL_WIDTH,
+    MAX_Y,
+    MIN_Y,
+    R
+} from "./api";
+import { defGlyph } from "./gen";
 
 const glyphs = [
     new Glyph({
@@ -189,8 +82,8 @@ const font = new Font({
     ...pkg.font,
     version: pkg.version,
     unitsPerEm: 1024,
-    ascender: (R + VGAP) * 11,
-    descender: -(R + VGAP) * 4,
+    ascender: MAX_Y,
+    descender: MIN_Y,
     glyphs: glyphs
 });
 
