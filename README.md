@@ -48,12 +48,12 @@ adjustable via these global params:
 - `R` - dot radius
 - `HGAP` - horizontal gap between lines
 - `VGAP` - vertical gap between dots
-- `X_HEIGHT` - by default set to `6 * R + 5 + VGAP`
+- `X_HEIGHT` - by default set to `7 * R + 6 * VGAP`
 
-The slant angle is defined by the direction vector `[2 * R + HGAP,
-X_HEIGHT]` (~19 deg in the default config). This ensures that in the
+The slant angle is implicitly defined by the direction vector `[2 * R +
+HGAP, X_HEIGHT]` (~16.5 deg in the default config). This ensures that in the
 sequence `i.` the two dots are horizontally aligned (as in the `thi.ng`
-wordmark).
+wordmark and illustrated in the above diagram).
 
 There're 3 basic shape types:
 
@@ -61,16 +61,20 @@ There're 3 basic shape types:
 - horizontal lines
 - dots
 
-Key Y (row) coordinates:
+### Shape grammar
 
-- 0x0 = max descender
-- 0x4 = baseline
-- 0xa = x-height
-- 0xe = max ascender
+```text
+DIGIT = '0'..'9' | 'a'..'e' # All coords are 4-bit hex nibbles
+VLINE = DIGIT DIGIT
+HLINE = 'h' DIGIT DIGIT
+HLINE_SHIFT = 'H' DIGIT DIGIT
+DOT = '.' DIGIT
+ADVANCE = '>'
 
-Grammar string parsing rules:
+SHAPE = (VLINE | HLINE | HLINE_SHIFT | DOT | ADVANCE)+
+```
 
-(All coords as 4-bit hex nibbles)
+Examples:
 
 - `0e` => vertical line from row 0x00 -> row 0x0e
 - `hb3` => h bridge @ row 0x0b width = 3 (aka multiple of global `R`
@@ -87,6 +91,9 @@ For example, the lowercase `a` glyph is encoded by this string:
 - horizontal bridge in row 9, w=4
 - advance to next column
 - vertical line from 5 -> 9
+
+Note: The subshapes should be arranged in such a way as to
+avoid/minimize overdraws...
 
 ## Licenses
 
