@@ -48,10 +48,11 @@ adjustable via these global params:
 - `R` - dot radius
 - `HGAP` - horizontal gap between lines
 - `VGAP` - vertical gap between dots
-- `X_HEIGHT` - by default set to `7 * R + 6 * VGAP`
+- `I_HEIGHT` - by default set to `7 * R + 6 * VGAP` (pos of `i` dot)
+- `X_HEIGHT` - by default set to `6 * R + 5 * VGAP`
 
 The slant angle is implicitly defined by the direction vector `[2 * R +
-HGAP, X_HEIGHT]` (~16.5 deg in the default config). This ensures that in the
+HGAP, I_HEIGHT]` (~16.5 deg in the default config). This ensures that in the
 sequence `i.` the two dots are horizontally aligned (as in the `thi.ng`
 wordmark and illustrated in the above diagram).
 
