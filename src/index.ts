@@ -7,14 +7,15 @@ import { Font, Glyph, Path } from "opentype.js";
 // dot radius
 const R = 50;
 const D = 2 * R;
-const GAP = 33;
-const COL_WIDTH = D + GAP;
-const X_HEIGHT = 6 * R + 5 * GAP;
+const HGAP = 30;
+const VGAP = 15;
+const COL_WIDTH = D + HGAP;
+const X_HEIGHT = 6 * R + 5 * VGAP;
 const DIR = normalize(null, [COL_WIDTH, X_HEIGHT]);
-const MIN = mulN2([], DIR, -4 * R - 3 * GAP);
+const MIN = mulN2([], DIR, -4 * R - 3 * VGAP);
 
 const rowPoint = (row: number) =>
-    maddN2([], DIR, row * R + (row - 1) * GAP, MIN);
+    maddN2([], DIR, row * R + (row - 1) * VGAP, MIN);
 
 const GRID = [...map(rowPoint, range(15))];
 const DOTGRID = [
@@ -36,12 +37,14 @@ const line = (x: number, y1: number, y2: number) => {
     return path;
 };
 
-const bridge = (x: number, y: number, span: number) => {
+const bridge = (x: number, y: number, span: number, xoff = 0) => {
     const path = new Path();
     const [ax, ay] = GRID[y];
     const [bx, by] = GRID[y + 1];
     const span2 = span >> 1;
-    const w = span * R + (span2 - (span & 1 ? 0 : 1)) * GAP;
+    const numGaps = span2 - (span & 1 || xoff !== 0 ? 0 : 1);
+    const w = span * R + numGaps * HGAP;
+    x += xoff;
     path.moveTo(x + ax, ay);
     path.lineTo(x + bx, by);
     path.lineTo(x + w + bx, by);
@@ -94,9 +97,7 @@ const defGlyph = ({ id, g, x, width }: GlyphDef) => {
             case "h":
             case "H": {
                 const y = parseInt(g.substr(i + 1, 2), 16);
-                path.extend(
-                    bridge(x + (g[i] === "H" ? R : 0), y >> 4, y & 0xf)
-                );
+                path.extend(bridge(x, y >> 4, y & 0xf, g[i] === "H" ? R : 0));
                 i += 3;
                 break;
             }
@@ -188,12 +189,14 @@ const font = new Font({
     ...pkg.font,
     version: pkg.version,
     unitsPerEm: 1024,
-    ascender: COL_WIDTH * 6,
-    descender: -COL_WIDTH * 3,
+    ascender: (R + VGAP) * 11,
+    descender: -(R + VGAP) * 4,
     glyphs: glyphs
 });
 
-writeFileSync(
-    `build/thing-regular-${pkg.version}-${(Date.now() / 1000) | 0}.otf`,
-    Buffer.from(font.toArrayBuffer())
-);
+const basePath = `build/thing-regular-${pkg.version}-${(Date.now() / 1000) |
+    0}`;
+
+// writeFileSync(`${basePath}.json`, JSON.stringify(font.toTables(), null, 4));
+
+writeFileSync(`${basePath}.otf`, Buffer.from(font.toArrayBuffer()));
