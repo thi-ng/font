@@ -3,6 +3,7 @@ import { maddN2, mulN2, normalize } from "@thi.ng/vectors";
 
 export interface GlyphDef {
     id: number;
+    name?: string;
     g: string;
     x?: number;
     width?: number;

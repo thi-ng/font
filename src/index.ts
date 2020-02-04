@@ -10,33 +10,44 @@ import {
 import { defGlyph } from "./gen";
 
 const glyphs = [
-    new Glyph({
-        name: ".notdef",
-        unicode: 0,
-        advanceWidth: 650,
-        path: new Path()
-    }),
-    new Glyph({
-        name: "space",
-        unicode: 32,
-        advanceWidth: 2 * COL_WIDTH,
-        path: new Path()
-    }),
     ...map(defGlyph, [
+        {
+            name: ".notdef",
+            id: 0,
+            g: ">"
+        },
+        {
+            name: "space",
+            id: 0x20,
+            g: ">"
+        },
         // punctuation
+        { id: 0x21, g: ".46e" },
+        { id: 0x22, g: "ce>ce" },
+        { id: 0x23, g: "H66Hb6>467bce>467bce", x: -R },
         { id: 0x28, g: "H43Hd35d>" },
         { id: 0x29, g: "h43hd3>5d" },
+        { id: 0x2c, g: "25" },
         { id: 0x2d, g: "h74>" },
         { id: 0x2e, g: ".4" },
         { id: 0x2f, g: "0e" },
         { id: 0x3a, g: ".5.7" },
+        { id: 0x3b, g: "25.7" },
         { id: 0x3d, g: "h54h74>" },
         { id: 0x5b, g: "h44hd45d>" },
         { id: 0x5d, g: "h44hd4>5d" },
         { id: 0x5f, g: "h44>" },
         // digits
         { id: 0x30, g: "5dh44hd4>5d" },
-        { id: 0x31, g: "Hd3>4d", x: -R }
+        { id: 0x31, g: "Hd3>4d", x: -R },
+        { id: 0x32, g: "56/6ch44hd4>cd" },
+        { id: 0x33, g: "h44hd4H93>4d" },
+        { id: 0x34, g: "aeh94>49ae" },
+        { id: 0x35, g: "adh44h94hd4>59" },
+        { id: 0x36, g: "5a/aeh44>5a" },
+        { id: 0x37, g: "/4dhd4>" },
+        { id: 0x38, g: "48ae/8a/a8h44hd4>48ae" },
+        { id: 0x39, g: "9dhd4/49>9d" }
     ]),
     ...mapcat(
         (spec) => [
@@ -56,7 +67,7 @@ const glyphs = [
             { id: 0x48, g: "49aeh94>49" },
             { id: 0x49, g: "4a.b" },
             { id: 0x4a, g: "12h04H93>19.b", x: -R },
-            { id: 0x4b, g: "478eh73>8a47" },
+            { id: 0x4b, g: "4e/78/76>468a" },
             { id: 0x4c, g: "4e" },
             { id: 0x4d, g: "49h96>49>49" },
             { id: 0x4e, g: "49h94>49" },
@@ -64,14 +75,14 @@ const glyphs = [
             { id: 0x50, g: "09h94>49" },
             { id: 0x51, g: "49h94>09" },
             { id: 0x52, g: "49h94>89" },
-            { id: 0x53, g: "5679h44h94>5789" },
+            { id: 0x53, g: "5689/86h44h94>5689" },
             { id: 0x54, g: "Hb3>4bce", x: -COL_WIDTH },
             { id: 0x55, g: "5ah44>5a" },
-            { id: 0x56, g: "5ah43>5a" },
+            { id: 0x56, g: "4a/46>6a" },
             { id: 0x57, g: "5ah46>5a>5a" },
-            { id: 0x58, g: "478aH72>478a" },
+            { id: 0x58, g: "468a/68/86>468a" },
             { id: 0x59, g: "5ah44>045a" },
-            { id: 0x5a, g: "57h44h94>79" }
+            { id: 0x5a, g: "/59h44h94>" }
         ]
     )
 ];

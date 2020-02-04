@@ -22,6 +22,18 @@ const line = (x: number, y1: number, y2: number) => {
     return path;
 };
 
+const diag = (x: number, y1: number, y2: number) => {
+    const path = new Path();
+    const [ax, ay] = GRID[y1];
+    const [bx, by] = GRID[y2];
+    path.moveTo(x + ax, ay);
+    path.lineTo(x + COL_WIDTH + bx, by);
+    path.lineTo(x + COL_WIDTH + D + bx, by);
+    path.lineTo(x + D + ax, ay);
+    path.close();
+    return path;
+};
+
 const bridge = (x: number, y: number, span: number, xoff = 0) => {
     const path = new Path();
     const [ax, ay] = GRID[y];
@@ -49,15 +61,7 @@ const dot = (x: number, y: number) => {
     return path;
 };
 
-// grammar:
-// all coords as 4bit hex
-// 0a => vertical line from row 0 -> row a
-// .6 => dot at row 6
-// > => forward x
-// hb3 => h bridge @ row b span=3 (3x R)
-// Hb3 => like `h` but shifted right by R
-
-export const defGlyph = ({ id, g, x, width }: GlyphDef) => {
+export const defGlyph = ({ id, name, g, x, width }: GlyphDef) => {
     x = x || 0;
     const path = new Path();
     for (let i = 0; i < g.length; ) {
@@ -79,6 +83,12 @@ export const defGlyph = ({ id, g, x, width }: GlyphDef) => {
                 i += 3;
                 break;
             }
+            case "/": {
+                const y = parseInt(g.substr(i + 1, 2), 16);
+                path.extend(diag(x, y >> 4, y & 0xf));
+                i += 3;
+                break;
+            }
             default: {
                 const y = parseInt(g.substr(i, 2), 16);
                 path.extend(line(x, y >> 4, y & 0xf));
@@ -87,7 +97,7 @@ export const defGlyph = ({ id, g, x, width }: GlyphDef) => {
         }
     }
     return new Glyph({
-        name: String.fromCharCode(id),
+        name: name || String.fromCharCode(id),
         unicode: id,
         advanceWidth: width || x + COL_WIDTH,
         path
