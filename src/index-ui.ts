@@ -1,7 +1,7 @@
 import { start } from "@thi.ng/hdom";
 import { parse } from "@thi.ng/sax";
 import { Path } from "opentype.js";
-import { MAX_Y, MIN_Y } from "./api";
+import { MAX_Y, MIN_Y, R, HGAP } from "./api";
 import { defGlyph, line } from "./gen";
 import { map, range2d } from "@thi.ng/transducers";
 
@@ -82,7 +82,7 @@ const app = () => {
 
                     return [
                         "g",
-                        { transform: `translate(${y * 130}, 0)` },
+                        { transform: `translate(${y * (R + HGAP)}, 0)` },
                         [wrapper, blockPathString],
                         [
                             "g",
@@ -95,14 +95,14 @@ const app = () => {
                                     y: -5,
                                     fill: "#999",
                                     stroke: "none",
-                                    "font-size": "26",
+                                    "font-size": "2rem",
                                     "font-family": "monospace"
                                 },
                                 `${x.toString(16)},${y}`
                             ]
                         ]
                     ];
-                }, range2d(14, 14))
+                }, range2d(14, 6))
             ]
         ]
     ];
