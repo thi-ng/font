@@ -1,16 +1,8 @@
 import { asCubic, circle } from "@thi.ng/geom";
 import { Glyph, Path } from "opentype.js";
-import {
-    COL_WIDTH,
-    D,
-    DOTGRID,
-    GlyphDef,
-    GRID,
-    HGAP,
-    R
-} from "./api";
+import { COL_WIDTH, D, DOTGRID, GlyphDef, GRID, HGAP, R } from "./api";
 
-const line = (x: number, y1: number, y2: number) => {
+export const line = (x: number, y1: number, y2: number) => {
     const path = new Path();
     const [ax, ay] = GRID[y1];
     const [bx, by] = GRID[y2];

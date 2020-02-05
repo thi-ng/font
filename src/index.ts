@@ -1,13 +1,9 @@
 import { map, mapcat } from "@thi.ng/transducers";
 import { readFileSync, writeFileSync } from "fs";
 import { Font, Glyph, Path } from "opentype.js";
-import {
-    COL_WIDTH,
-    MAX_Y,
-    MIN_Y,
-    R
-} from "./api";
+import { COL_WIDTH, MAX_Y, MIN_Y, R } from "./api";
 import { defGlyph } from "./gen";
+import * as pkg from "../package.json";
 
 const glyphs = [
     ...map(defGlyph, [
@@ -87,7 +83,7 @@ const glyphs = [
     )
 ];
 
-const pkg = JSON.parse(readFileSync("package.json").toString());
+console.log({ glyphs }, glyphs[38], (glyphs[38].path as Path).toSVG(4));
 
 const font = new Font({
     ...pkg.font,
