@@ -89,7 +89,7 @@ const app = () => {
 
                     return [
                         "g",
-                        { transform: `translate(${y * (R + HGAP)}, 0)` },
+                        { transform: `translate(${y * (R * 2 + HGAP)}, 0)` },
                         [wrapper, blockPathString],
                         [
                             "g",
