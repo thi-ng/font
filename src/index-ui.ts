@@ -63,7 +63,7 @@ const app = () => {
 
     return [
         "svg",
-        { viewBox: `-100 0 2300 ${MAX_Y - MIN_Y}`, width: 900 },
+        { viewBox: `-100 0 1300 ${MAX_Y - MIN_Y}`, width: 600 },
         [
             "g",
             { transform: `matrix(1 0 0 -1 0 ${MAX_Y - 10})` },
