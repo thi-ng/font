@@ -32,6 +32,14 @@ const innerHtmlWrapper = () =>
         }
     };
 
+/**
+ *
+ * @param s string that represents a command with two points in svg path d attribute.
+ *          The two numbers can be space-separated
+ *          or not (if the second is number is positive):
+ *          For example: `M18.4175 62.3362` or `M-55.2525-187.0085`
+ * @returns a two numbers array
+ */
 function toPoint(s: string | null) {
     if (s == null) {
         return [0, 0];
@@ -79,6 +87,7 @@ const app = () => {
 
                     const commands = dString.match(cmdRegEx);
                     const firstPoint = toPoint(commands && commands[0]);
+                    console.log(commands && commands[0]);
 
                     return [
                         "g",
