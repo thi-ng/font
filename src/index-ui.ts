@@ -5,7 +5,6 @@ import { MAX_Y, MIN_Y, R, HGAP } from "./api";
 import { defGlyph, line } from "./gen";
 import { map, range2d } from "@thi.ng/transducers";
 
-// const glyph = defGlyph({ id: 0x45, g: "5ah44h94>69" });
 const glyph = defGlyph({ id: 0x45, g: "5a>h62H72" });
 const pathString = (glyph.path as Path).toSVG(4);
 
@@ -77,7 +76,7 @@ const app = () => {
             { transform: `matrix(1 0 0 -1 0 ${MAX_Y - 10})` },
             [wrapper, pathString],
             [
-                "g.foo",
+                "g",
                 { fill: "none", stroke: "silver" },
 
                 ...map(([x, y]) => {
@@ -87,7 +86,6 @@ const app = () => {
 
                     const commands = dString.match(cmdRegEx);
                     const firstPoint = toPoint(commands && commands[0]);
-                    console.log(commands && commands[0]);
 
                     return [
                         "g",
