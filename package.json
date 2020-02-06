@@ -6,12 +6,16 @@
     "author": "Karsten Schmidt <k+npm@thi.ng>",
     "scripts": {
         "build": "mkdir -p build && ts-node src/index.ts",
-        "debug": "mkdir -p build && ts-node src/debug-grid.ts"
+        "debug": "mkdir -p build && ts-node src/debug-grid.ts",
+        "start": "parcel ./src/index.html -p 8080 --open"
     },
     "dependencies": {
         "@thi.ng/geom": "^1.7.10",
+        "@thi.ng/hdom": "^8.0.10",
+        "@thi.ng/sax": "^1.1.9",
         "@thi.ng/transducers": "^6.2.1",
-        "opentype.js": "^1.1.0"
+        "opentype.js": "^1.1.0",
+        "parcel-bundler": "^1.12.4"
     },
     "devDependencies": {
         "@types/node": "^12.12.2",
