@@ -9,6 +9,8 @@
         "noUnusedParameters": false,
         "noUnusedLocals": false,
         "preserveConstEnums": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
         "moduleResolution": "node",
         "strict": true,
         "strictNullChecks": true
