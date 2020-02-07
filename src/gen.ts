@@ -26,10 +26,17 @@ const diag = (x: number, y1: number, y2: number) => {
     const path = new Path();
     const [ax, ay] = GRID[y1];
     const [bx, by] = GRID[y2];
-    path.moveTo(x + ax, ay);
-    path.lineTo(x + COL_WIDTH + bx, by);
-    path.lineTo(x + COL_WIDTH + D + bx, by);
-    path.lineTo(x + D + ax, ay);
+    if (y1 < y2) {
+        path.moveTo(x + ax, ay);
+        path.lineTo(x + COL_WIDTH + bx, by);
+        path.lineTo(x + COL_WIDTH + D + bx, by);
+        path.lineTo(x + D + ax, ay);
+    } else {
+        path.moveTo(x + COL_WIDTH + bx, by);
+        path.lineTo(x + ax, ay);
+        path.lineTo(x + D + ax, ay);
+        path.lineTo(x + COL_WIDTH + D + bx, by);
+    }
     path.close();
     return path;
 };
