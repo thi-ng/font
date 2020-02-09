@@ -9,6 +9,7 @@
         "build": "mkdir -p build && ts-node src/index.ts",
         "build:all": "yarn build",
         "build:banners": "ts-node src/banners.ts specs/base.json specs/packages.txt",
+        "postprocess": "/Applications/FontForge.app/Contents/MacOS/FontForge -lang=py -script src/postprocess.py",
         "debug": "mkdir -p build && ts-node src/debug-grid.ts"
     },
     "dependencies": {
