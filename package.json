@@ -1,6 +1,6 @@
 {
     "name": "@thi.ng/font",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "main": "index.js",
     "license": "Apache-2.0",
     "author": "Karsten Schmidt <k+npm@thi.ng>",

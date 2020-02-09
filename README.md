@@ -22,7 +22,7 @@ wordmark](https://github.com/thi-ng/branding/). Currently only includes
 lowercase ASCII characters (also mapped to uppercase), digits, some
 punctuation, but will be extended further...
 
-![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.5.png)
+![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.7.png)
 
 ## Status
 
@@ -33,7 +33,7 @@ future ideas.
 
 ## Download
 
-[Download font as OTF](./font/thing-regular-0.0.6.otf) (v0.0.6)
+[Download font as OTF](./font/thing-regular-0.0.7.otf) (v0.0.7)
 
 Big shouts to the [opentype.js](https://opentype.js.org/) &
 [FontForge](https://fontforge.org/) teams for simplifying OTF file
