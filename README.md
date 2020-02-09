@@ -35,8 +35,9 @@ future ideas.
 
 [Download font as OTF](./font/thing-regular-0.0.6.otf) (v0.0.6)
 
-Big shouts to the [opentype.js team](https://opentype.js.org/) for
-simplifying OTF file generation!
+Big shouts to the [opentype.js](https://opentype.js.org/) &
+[FontForge](https://fontforge.org/) teams for simplifying OTF file
+generation!
 
 ## Contributing
 
@@ -180,8 +181,10 @@ creation of GPOS/kern tables, those hints will need to be added to the
 generated font file(s) in a post-processing step, here using
 [FontForge](https://fontforge.org/).
 
-Furthermore, due to the modular design approach, most generated glyphs will
-consist of multiple sub-paths, incl. possible overlaps. The [postprocess.py]() script will take care of that too.
+Furthermore, due to the modular design approach, most generated glyphs
+will consist of multiple sub-paths, incl. possible overlaps. The
+[postprocess.py](https://github.com/thi-ng/font/blob/master/src/postprocess.py)
+script will take care of that too.
 
 ```bash
 # install fontforge (if needed)
