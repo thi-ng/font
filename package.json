@@ -1,16 +1,20 @@
 {
     "name": "@thi.ng/font",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "main": "index.js",
     "license": "Apache-2.0",
     "author": "Karsten Schmidt <k+npm@thi.ng>",
     "scripts": {
+        "clean": "rm -rf build/*.*",
         "build": "mkdir -p build && ts-node src/index.ts",
+        "build:all": "yarn build",
+        "build:banners": "ts-node src/banners.ts specs/base.json specs/packages.txt",
         "debug": "mkdir -p build && ts-node src/debug-grid.ts"
     },
     "dependencies": {
         "@thi.ng/geom": "^1.7.10",
         "@thi.ng/transducers": "^6.2.1",
+        "fast-glob": "^3.1.1",
         "opentype.js": "^1.1.0"
     },
     "devDependencies": {

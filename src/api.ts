@@ -1,35 +1,93 @@
-import { map, range } from "@thi.ng/transducers";
-import { maddN2, mulN2, normalize } from "@thi.ng/vectors";
+import { ConsoleLogger, LogLevel } from "@thi.ng/api";
+import { Vec } from "@thi.ng/vectors";
 
-export interface GlyphDef {
-    id: number;
+export interface GlyphSpec {
+    id?: number;
     name?: string;
     g: string;
-    x?: number;
-    width?: number;
+    x?: number[];
+    width?: number[];
 }
 
-// dot radius
-export const R = 50;
-export const D = 2 * R;
-export const HGAP = 30;
-export const VGAP = 15;
-export const COL_WIDTH = D + HGAP;
-export const I_HEIGHT = 7 * R + 6 * VGAP;
-export const X_HEIGHT = 6 * R + 5 * VGAP;
-export const DIR = normalize(null, [COL_WIDTH, I_HEIGHT]);
-export const MIN = mulN2([], DIR, -4 * R - 3 * VGAP);
-export const MAX = mulN2([], DIR, 11 * R + 10 * VGAP);
-export const MIN_Y = MIN[1];
-export const MAX_Y = MAX[1];
+export interface FontConfig {
+    /**
+     * Dot radius, the fundamental param on which everything else is
+     * based on.
+     */
+    r: number;
+    /**
+     * Dot diameter, i.e. `2 * r`.
+     */
+    d: number;
+    /**
+     * Horizontal gap to define grid cell size.
+     */
+    hgap: number;
+    /**
+     * Vertical gap to define grid cell size.
+     */
+    vgap: number;
+    /**
+     * Column width (i.e. `d + hgap`)
+     */
+    colWidth: number;
+    /**
+     * Normalized slant direction vector.
+     */
+    dir: Vec;
+    /**
+     * Computed grid cell offsets (single column)
+     */
+    grid: Vec[];
+    /**
+     * Computed dot offsets (single column)
+     */
+    dotGrid: Vec[];
+    /**
+     * Min Y coord (aka descender)
+     */
+    minY: number;
+    /**
+     * Max Y coord (aka ascender)
+     */
+    maxY: number;
+}
 
-const rowPoint = (row: number) =>
-    maddN2([], DIR, row * R + (row - 1) * VGAP, MIN);
+export interface RawFontConfig {
+    /**
+     * Dot radius, the fundamental param on which everything else is
+     * based on.
+     */
+    r: number;
+    /**
+     * Horizontal and vertical gaps to define grid cell size.
+     */
+    gap: number[];
+    /**
+     * Descender/ascender limits in number of rows.
+     */
+    extent: number[];
+    /**
+     * Slant direction as [columns, rows]
+     */
+    slant: number[];
+}
 
-export const GRID = [...map(rowPoint, range(15))];
-export const DOTGRID = [
-    ...map((i) => {
-        const p = rowPoint(i + R / (R + VGAP));
-        return [p[0] + R, p[1]];
-    }, range(15))
-];
+export interface RawFontStyleSpec {
+    font: {
+        styleName: string;
+        designer: string;
+        designerURL: string;
+    };
+    config: RawFontConfig;
+    glyphs: GlyphSpec[];
+}
+
+export const DEFAULT_CONFIG: RawFontConfig = {
+    r: 50,
+    gap: [30, 15],
+    extent: [-4, 11],
+    slant: [1, 7]
+};
+
+export const LOGGER = new ConsoleLogger("main", LogLevel.INFO);

@@ -3,16 +3,10 @@ import { line, svg } from "@thi.ng/hiccup-svg";
 import { map, range } from "@thi.ng/transducers";
 import { writeFileSync } from "fs";
 import { Path } from "opentype.js";
-import {
-    COL_WIDTH,
-    GRID,
-    HGAP,
-    MAX_Y,
-    MIN_Y,
-    R,
-    VGAP
-} from "./api";
-import { defGlyph } from "./gen";
+import fontDef from "../specs/base.json";
+import { defGlyph, initConfig } from "./gen";
+
+const config = initConfig(fontDef.config);
 
 const glyphs = [
     {
@@ -24,7 +18,7 @@ const glyphs = [
         g:
             ".0.1.2.3.5.6.7.8.9.a.b.c.d>04>14>24>34>45>46>47>48>49>4a>4b>4c>4d>4e"
     }
-].map(defGlyph);
+].map((spec) => defGlyph(config, spec));
 
 writeFileSync(
     `build/diagram-${(Date.now() / 1000) | 0}.svg`,
@@ -33,25 +27,28 @@ writeFileSync(
             {
                 fill: "none",
                 stroke: "black",
-                viewBox: `-10 0 2300 ${MAX_Y - MIN_Y}`
+                viewBox: `-10 0 2300 ${config.maxY - config.minY}`
             },
             [
                 "g",
-                { transform: `matrix(1 0 0 -1 0 ${MAX_Y - 10})` },
+                { transform: `matrix(1 0 0 -1 0 ${config.maxY - 10})` },
                 [
                     "g",
                     { stroke: "#666" },
                     ...map(
                         (x) =>
                             line(
-                                [x * COL_WIDTH, MIN_Y - VGAP],
-                                [x * COL_WIDTH, MAX_Y]
+                                [
+                                    x * config.colWidth,
+                                    config.minY - config.vgap
+                                ],
+                                [x * config.colWidth, config.maxY]
                             ),
                         range(0, 18)
                     ),
                     ...map(
-                        (g) => line([-10, g[1]], [18 * COL_WIDTH, g[1]]),
-                        GRID
+                        (g) => line([-10, g[1]], [18 * config.colWidth, g[1]]),
+                        config.grid
                     )
                 ],
                 [
@@ -60,15 +57,21 @@ writeFileSync(
                     ...map(
                         (x) =>
                             line(
-                                [x * COL_WIDTH - HGAP, MIN_Y - VGAP],
-                                [x * COL_WIDTH - HGAP, MAX_Y]
+                                [
+                                    x * config.colWidth - config.hgap,
+                                    config.minY - config.vgap
+                                ],
+                                [x * config.colWidth - config.hgap, config.maxY]
                             ),
                         range(0, 18)
                     ),
                     ...map(
                         (g) =>
-                            line([-10, g[1] + R], [18 * COL_WIDTH, g[1] + R]),
-                        GRID
+                            line(
+                                [-10, g[1] + config.r],
+                                [18 * config.colWidth, g[1] + config.r]
+                            ),
+                        config.grid
                     )
                 ],
                 [
@@ -79,7 +82,7 @@ writeFileSync(
                 [
                     "g",
                     {
-                        transform: `translate(${COL_WIDTH},0)`,
+                        transform: `translate(${config.colWidth},0)`,
                         "stroke-width": 5
                     },
                     (<Path>glyphs[1].path).toSVG(3)
