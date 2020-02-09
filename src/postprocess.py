@@ -43,13 +43,12 @@ font.addLookup(
 font.addLookupSubtable("kern", "kern-1")
 
 for pair in spec["kern"]:
-    advance = pair["xadv"]
-    xadv = advance[0] * r + advance[1] * gap
-    for id in pair["l"]:
-        for id2 in pair["r"]:
-            print("add kern pair:", id, id2, xadv)
-            glyph = font.createChar(ord(id))
-            glyph.addPosSub("kern-1", id2, 0, 0, xadv, 0, 0, 0, 0, 0)
+    id = pair[0]
+    id2 = pair[1]
+    xadv = pair[2] * r + pair[3] * gap
+    print("add kern pair:", id, id2, xadv)
+    glyph = font.createChar(ord(id))
+    glyph.addPosSub("kern-1", id2, 0, 0, xadv, 0, 0, 0, 0, 0)
 
 print("writing", dest_path)
 font.generate(dest_path)
