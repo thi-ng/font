@@ -148,10 +148,35 @@ The following snippet shows the spec for a single glyph (see
   `name` is missing, it will be derived from the given `id` (Unicode)
   value.
 - The `x` offset is only needed if the glyph is not horizontally aligned
-  to 0. It's a two element array of `[a, b]` and will be translated to: `a * columnWidth + b * r`.
+  to 0. It's a two element array of `[a, b]` and will be translated to:
+  `a * columnWidth + b * r`.
 - The `width` is only needed for manual overriding of the computed
   width. If given, the same logic as for `x` is used to compute the
   final value.
+
+## Manual post-processing
+
+Since [opentype.js](https://opentype.js.org/) doesn't support the setting
+of GPOS/kern tables, those hints will need to be manually added to the
+generated font file(s), e.g. using [FontForge](https://fontforge.org/).
+
+- [FF Kerning guide](http://designwithfontforge.com/en-US/Spacing_Metrics_and_Kerning.html)
+- Choose: Metric menu > Kern pair closeup...
+- New Loookup subtable... > New > 'kern' Horizontal Kerning > Ok all
+- Define kern pairs and adjust spacing
+
+In the default font config, at east the following pairs should be defined:
+
+- left: `!"#/itdfl` / right: `t`
+- left: `#/gjqy` / right: `j`
+
+Furthermore, due to the modular design approach, most generated glyphs will
+consist of multiple sub-paths, incl. possible overlaps. Even though they
+don't seem to be problematic, overlaps can be easily removed in FontForge via
+the glyph editor:
+
+- Select entire path (Command+A)
+- Menu Element > Overlap > Remove overlap
 
 ## Licenses
 
