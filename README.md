@@ -1,15 +1,26 @@
 # @thi.ng/font
 
+<!-- TOC depthFrom:2 -->
+
+- [About](#about)
+- [Status](#status)
+- [Download](#download)
+- [Contributing](#contributing)
+- [Building](#building)
+- [Glyph definition / configuration](#glyph-definition--configuration)
+    - [Shape grammar](#shape-grammar)
+    - [Glyph spec format](#glyph-spec-format)
+- [FontForge post-processing](#fontforge-post-processing)
+- [Licenses](#licenses)
+
+<!-- /TOC -->
+
+## About
+
 Generated, modular font based on [thi.ng
 wordmark](https://github.com/thi-ng/branding/). Currently only includes
 lowercase ASCII characters (also mapped to uppercase), digits, some
 punctuation, but will be extended further...
-
-You're welcome to contribute customized and/or extended versions by
-providing new font spec JSON files (see section below). These different
-versions will be built and distributed as part of the same font family.
-The shared use of the underlying (changeable) grid layout and shape
-grammar would be the common lowest denominator of these variations.
 
 ![screenshot](https://raw.githubusercontent.com/thi-ng/font/master/assets/0.0.5.png)
 
@@ -26,6 +37,14 @@ future ideas.
 
 Big shouts to the [opentype.js team](https://opentype.js.org/) for
 simplifying OTF file generation!
+
+## Contributing
+
+You're welcome to contribute customized and/or extended versions by
+adding new font spec JSON files (see section below). These different
+versions will be built and distributed as part of the same font family.
+The shared use of the underlying (changeable) grid layout and shape
+grammar would be the common lowest denominator of these variations.
 
 ## Building
 
@@ -143,7 +162,7 @@ The following snippet shows the spec for a single glyph (see
 }
 ```
 
-- Only the `name` OR `id` attrib is required. The `id` field is only
+- Only the `name` **or** `id` attrib is required. The `id` field is only
   needed if `name` is missing or longer than a single char. Likewise, if
   `name` is missing, it will be derived from the given `id` (Unicode)
   value.
@@ -154,29 +173,45 @@ The following snippet shows the spec for a single glyph (see
   width. If given, the same logic as for `x` is used to compute the
   final value.
 
-## Manual post-processing
+## FontForge post-processing
 
-Since [opentype.js](https://opentype.js.org/) doesn't support the setting
-of GPOS/kern tables, those hints will need to be manually added to the
-generated font file(s), e.g. using [FontForge](https://fontforge.org/).
-
-- [FF Kerning guide](http://designwithfontforge.com/en-US/Spacing_Metrics_and_Kerning.html)
-- Choose: Metric menu > Kern pair closeup...
-- New Loookup subtable... > New > 'kern' Horizontal Kerning > Ok all
-- Define kern pairs and adjust spacing
-
-In the default font config, at east the following pairs should be defined:
-
-- left: `!"#/itdfl` / right: `t`
-- left: `#/gjqy` / right: `j`
+Since [opentype.js](https://opentype.js.org/) doesn't support the
+creation of GPOS/kern tables, those hints will need to be added to the
+generated font file(s) in a post-processing step, here using
+[FontForge](https://fontforge.org/).
 
 Furthermore, due to the modular design approach, most generated glyphs will
-consist of multiple sub-paths, incl. possible overlaps. Even though they
-don't seem to be problematic, overlaps can be easily removed in FontForge via
-the glyph editor:
+consist of multiple sub-paths, incl. possible overlaps. The [postprocess.py]() script will take care of that too.
 
-- Select entire path (Command+A)
-- Menu Element > Overlap > Remove overlap
+```bash
+# install fontforge (if needed)
+brew cask install fontforge
+
+# build fonts for all available specs
+yarn build:all
+
+# pass a generated font and its JSON spec as input
+yarn postprocess -i build/thing-regular-0.0.6-1581258015.otf -k specs/base.json
+# processing font: build/thing-regular-0.0.6-1581258015.otf
+# cleaning glyphs...
+# add kern pair: ' t 80
+# add kern pair: " t 80
+# add kern pair: / t 80
+# add kern pair: # t 80
+# add kern pair: ] t 80
+# add kern pair: d t 80
+# add kern pair: f t 80
+# add kern pair: l t 80
+# add kern pair: g j 50
+# add kern pair: j j 50
+# add kern pair: q j 50
+# add kern pair: y j 50
+# writing build/thing-regular-0.0.6-1581258015-kerned.otf
+```
+
+Note: the `yarn postprocess` script currently assumes OSX and that
+FontForge is installed in `/Applications/FontForge.app`. You might need
+to edit `package.json` to adapt for other environments...
 
 ## Licenses
 
