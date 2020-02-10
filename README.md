@@ -1,4 +1,4 @@
-# @thi.ng/font
+# ![thi.ng/font](https://media.thi.ng/umbrella/banners/thing-font.svg?1581297779)
 
 <!-- TOC depthFrom:2 -->
 
