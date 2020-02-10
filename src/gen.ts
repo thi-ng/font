@@ -214,10 +214,7 @@ export const defFontFromFile = (specPath: string) =>
     defFont(JSON.parse(readFileSync(specPath).toString()));
 
 export const renderSvgString = (str: string, font: Font, fontSize = 72) => {
-    const paths = font.getPaths(str, 0, fontSize * 0.66, fontSize, {
-        kerning: false,
-        features: {}
-    });
+    const paths = font.getPaths(str, 0, fontSize * 0.66, fontSize);
     const union = paths.reduce((acc, p) => (acc.extend(p), acc), new Path());
     const b: any = union.getBoundingBox();
     const width = b.x2 - b.x1;
