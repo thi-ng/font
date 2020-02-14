@@ -1,8 +1,9 @@
 import { start } from "@thi.ng/hdom";
 import { parse } from "@thi.ng/sax";
+import { line, svg } from "@thi.ng/hiccup-svg";
 import { Path } from "opentype.js";
-import { MAX_Y, MIN_Y, R, HGAP } from "./api";
-import { defGlyph, line } from "./gen";
+import { MAX_Y, MIN_Y, R, HGAP, COL_WIDTH, VGAP, GRID, D } from "./api";
+import { defGlyph } from "./gen";
 import { map, range2d } from "@thi.ng/transducers";
 
 const glyph = defGlyph({ id: 0x45, g: "5a>h62H72" });
@@ -10,7 +11,7 @@ const pathString = (glyph.path as Path).toSVG(4);
 
 const cmdRegEx = /[a-z][^a-z]*/gi;
 
-const innerHtmlWrapper = () =>
+const innerHtmlWrapperSvg = () =>
     <any>{
         init(el: any, _: any, html: string) {
             this.el = el;
@@ -31,42 +32,40 @@ const innerHtmlWrapper = () =>
         }
     };
 
-/**
- *
- * @param s string that represents a command with two points in svg path d attribute.
- *          The two numbers can be space-separated
- *          or not (if the second is number is positive):
- *          For example: `M18.4175 62.3362` or `M-55.2525-187.0085`
- * @returns a two numbers array
- */
-function toPoint(s: string | null) {
-    if (s == null) {
-        return [0, 0];
-    }
-    s = s.slice(1);
-    const numbers = [""];
-    for (let i = 0; i < s.length; i++) {
-        if (i === 0) {
-            numbers[numbers.length - 1] += s[i];
-            continue;
-        }
-        if (s[i] === " ") {
-            numbers.push("");
-            continue;
-        }
-        if (s[i] === "-") {
-            numbers.push("");
-            numbers[numbers.length - 1] += s[i];
-            continue;
-        }
-        numbers[numbers.length - 1] += s[i];
-    }
-    const ret = numbers.filter(Boolean).map((n) => Number(n));
-    return ret;
-}
+const gridElements = [
+    ...map(([xi, yi]) => {
+        const x = 0;
+        const y1 = xi;
+        const y2 = x + 1;
+        const [ax, ay] = GRID[y1];
+        const [bx, by] = GRID[y2];
+        return [
+            "g",
+            { transform: `translate(${yi * (R * 2 + HGAP)}, 0)` },
+            line([x + ax, ay], [x + bx, by]),
+            line([x + bx, by], [x + D + bx, by]),
+            line([x + D + bx, by], [x + D + ax, ay]),
+            line([x + D + ax, ay], [x + ax, ay]),
+
+            [
+                "text",
+                {
+                    transform: `translate(${x + ax} ${ay}) scale(1, -1)`,
+                    x: 50,
+                    y: -5,
+                    fill: "#999",
+                    stroke: "none",
+                    "font-size": "2rem",
+                    "font-family": "monospace"
+                },
+                `${xi.toString(16)},${yi}`
+            ]
+        ];
+    }, range2d(14, 6))
+];
 
 const app = () => {
-    const wrapper = innerHtmlWrapper();
+    const wrapper = innerHtmlWrapperSvg();
 
     return [
         "svg",
@@ -75,42 +74,7 @@ const app = () => {
             "g",
             { transform: `matrix(1 0 0 -1 0 ${MAX_Y - 10})` },
             [wrapper, pathString],
-            [
-                "g",
-                { fill: "none", stroke: "silver" },
-
-                ...map(([x, y]) => {
-                    const blockPathString = line(0, x, x + 1).toSVG(4);
-                    const doc = [...parse(blockPathString)];
-                    const dString = doc[0].attribs!.d;
-
-                    const commands = dString.match(cmdRegEx);
-                    const firstPoint = toPoint(commands && commands[0]);
-
-                    return [
-                        "g",
-                        { transform: `translate(${y * (R * 2 + HGAP)}, 0)` },
-                        [wrapper, blockPathString],
-                        [
-                            "g",
-                            { transform: `translate(${firstPoint.join(" ")})` },
-                            [
-                                "text",
-                                {
-                                    transform: "scale(1, -1)",
-                                    x: 50,
-                                    y: -5,
-                                    fill: "#999",
-                                    stroke: "none",
-                                    "font-size": "2rem",
-                                    "font-family": "monospace"
-                                },
-                                `${x.toString(16)},${y}`
-                            ]
-                        ]
-                    ];
-                }, range2d(14, 6))
-            ]
+            ["g", { fill: "none", stroke: "silver" }, ...gridElements]
         ]
     ];
 };
