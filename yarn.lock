@@ -830,6 +830,31 @@
     "@thi.ng/errors" "^1.2.3"
     "@thi.ng/random" "^1.2.0"
 
+"@thi.ng/associative@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@thi.ng/associative/-/associative-3.1.3.tgz#7a830a130bc13fb6be5a6d608d800b513df8be9a"
+  integrity sha512-U2aiUiO6ZZWq4nwlJ9cjiQdckRiK5DFb0MFF+MtpJNN5BN/vM98Xzdu3W9+BhuLnbMD1wMlF5eEfFEE7ogRzsA==
+  dependencies:
+    "@thi.ng/api" "^6.7.1"
+    "@thi.ng/binary" "^1.2.1"
+    "@thi.ng/checks" "^2.5.0"
+    "@thi.ng/compare" "^1.1.1"
+    "@thi.ng/dcons" "^2.2.2"
+    "@thi.ng/equiv" "^1.0.12"
+    "@thi.ng/errors" "^1.2.3"
+    "@thi.ng/transducers" "^6.2.1"
+
+"@thi.ng/atom@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@thi.ng/atom/-/atom-3.1.4.tgz#d842cd453d273c161374a918e28a4b2e5e78c1a6"
+  integrity sha512-gMkae5O2dRKWJ4ibtU3m/uSd2p2NuIKXpow80BIbk3CE3sxU+3QGYHikqSObyGvliu+YEJUWpXHg3lpIfDSdUw==
+  dependencies:
+    "@thi.ng/api" "^6.7.1"
+    "@thi.ng/checks" "^2.5.0"
+    "@thi.ng/equiv" "^1.0.12"
+    "@thi.ng/errors" "^1.2.3"
+    "@thi.ng/paths" "^3.0.1"
+
 "@thi.ng/binary@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@thi.ng/binary/-/binary-1.2.1.tgz#2eb83d1c138f7fee46590f3d7bb86ca1a634fbf9"
@@ -867,6 +892,19 @@
   dependencies:
     "@thi.ng/api" "^6.7.1"
     "@thi.ng/errors" "^1.2.3"
+
+"@thi.ng/dcons@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@thi.ng/dcons/-/dcons-2.2.2.tgz#bb3310b59c6e4c26adc35d9525a4f980ba246f82"
+  integrity sha512-Tm4l4GyhOBOQZphOOxXxnjodAs81LtPYmuz/IDBbrAPtrLuiTcB47L7yTBMnIc8Cayh8qDtntUnvc2opWvntJw==
+  dependencies:
+    "@thi.ng/api" "^6.7.1"
+    "@thi.ng/checks" "^2.5.0"
+    "@thi.ng/compare" "^1.1.1"
+    "@thi.ng/equiv" "^1.0.12"
+    "@thi.ng/errors" "^1.2.3"
+    "@thi.ng/random" "^1.2.0"
+    "@thi.ng/transducers" "^6.2.1"
 
 "@thi.ng/defmulti@^1.2.3":
   version "1.2.3"
@@ -1086,6 +1124,14 @@
   dependencies:
     "@thi.ng/api" "^6.7.1"
 
+"@thi.ng/paths@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@thi.ng/paths/-/paths-3.0.1.tgz#65f03a7d3d0ada98d6f5fbd36af2f4ddf16cddd6"
+  integrity sha512-gJvdMVgz3s5mDkX0JVqh/72HeYbSp8DKC4D1afK62rafSGi54lS5yW21SuUqU7CGaRawoa9ycTI2IK2+C8RdGQ==
+  dependencies:
+    "@thi.ng/checks" "^2.5.0"
+    "@thi.ng/errors" "^1.2.3"
+
 "@thi.ng/random@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@thi.ng/random/-/random-1.2.0.tgz#598dedb8ec9057be0e1890bb58ee5e0e38bbd193"
@@ -1093,14 +1139,18 @@
   dependencies:
     "@thi.ng/api" "^6.7.1"
 
-"@thi.ng/sax@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@thi.ng/sax/-/sax-1.1.9.tgz#3e5b9a43ef37edd521d30d17b7b843efed23ed43"
-  integrity sha512-MBJmuTzv6245lqExXWFdA+AbTvG9rKABCLPDXTtBPAQkYan3+yr7OXRchmlpNU5M8OgKMk02GaKBC7zwgwtckA==
+"@thi.ng/rstream@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@thi.ng/rstream/-/rstream-3.0.2.tgz#7d863cdac41c1177f670b8aec412f945abf17eb8"
+  integrity sha512-SV1zOIj/Zwny1Ko5FIt8715d9C9uE58SH8y+EmxSvINR42XnnvN4o4IvKYvv158lYouaPyL736W+NxfrZAegXA==
   dependencies:
     "@thi.ng/api" "^6.7.1"
+    "@thi.ng/associative" "^3.1.3"
+    "@thi.ng/atom" "^3.1.4"
+    "@thi.ng/checks" "^2.5.0"
+    "@thi.ng/errors" "^1.2.3"
+    "@thi.ng/paths" "^3.0.1"
     "@thi.ng/transducers" "^6.2.1"
-    "@thi.ng/transducers-fsm" "^1.1.9"
 
 "@thi.ng/strings@^1.4.0":
   version "1.4.0"
@@ -1110,12 +1160,13 @@
     "@thi.ng/errors" "^1.2.3"
     "@thi.ng/memoize" "^1.1.8"
 
-"@thi.ng/transducers-fsm@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@thi.ng/transducers-fsm/-/transducers-fsm-1.1.9.tgz#bf2aaa310d45a51a000f22153a3e89e4f1aa5ed8"
-  integrity sha512-BRmS5ffhWsazlqVAGeznSsKHqH+W1CeP2QIXxm/CgEXzBVAZjlKgSwjJnnS6W2QQfsvAUFwSRehyUppkXLaPTQ==
+"@thi.ng/transducers-hdom@^2.0.34":
+  version "2.0.34"
+  resolved "https://registry.yarnpkg.com/@thi.ng/transducers-hdom/-/transducers-hdom-2.0.34.tgz#24e4d0a0cef96696d36696a2f93d7a9161a2bf22"
+  integrity sha512-P9Qc4rPGV/TzMs1rf4OIW6h1Ohk5FOSnjZcDZ8tto82UlRfvpc+vYaasvep8f2ME/k7hQvgxKVV0yLJBlqEQSg==
   dependencies:
-    "@thi.ng/api" "^6.7.1"
+    "@thi.ng/hdom" "^8.0.10"
+    "@thi.ng/hiccup" "^3.2.9"
     "@thi.ng/transducers" "^6.2.1"
 
 "@thi.ng/transducers@^6.2.1":
