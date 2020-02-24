@@ -21,6 +21,7 @@ thi.ng/dgraph
 thi.ng/diff
 thi.ng/dlogic
 thi.ng/dot
+thi.ng/download
 thi.ng/dsp
 thi.ng/dsp-io-wav
 thi.ng/dynvar
@@ -33,7 +34,8 @@ thi.ng/geom
 thi.ng/geom-accel
 thi.ng/geom-api
 thi.ng/geom-arc
-thi.ng/geom-clip
+thi.ng/geom-clip-line
+thi.ng/geom-clip-poly
 thi.ng/geom-closest-point
 thi.ng/geom-hull
 thi.ng/geom-isec
@@ -63,12 +65,14 @@ thi.ng/imgui
 thi.ng/interceptors
 thi.ng/intervals
 thi.ng/iterators
+thi.ng/layout
 thi.ng/leb128
 thi.ng/lsys
 thi.ng/malloc
 thi.ng/math
 thi.ng/matrices
 thi.ng/memoize
+thi.ng/mime
 thi.ng/morton
 thi.ng/paths
 thi.ng/pixel
@@ -104,6 +108,7 @@ thi.ng/simd
 thi.ng/soa
 thi.ng/sparse
 thi.ng/strings
+thi.ng/text-canvas
 thi.ng/transducers
 thi.ng/transducers-binary
 thi.ng/transducers-fsm
