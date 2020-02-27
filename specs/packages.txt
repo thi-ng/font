@@ -21,7 +21,7 @@ thi.ng/dgraph
 thi.ng/diff
 thi.ng/dlogic
 thi.ng/dot
-thi.ng/download
+thi.ng/dl-asset
 thi.ng/dsp
 thi.ng/dsp-io-wav
 thi.ng/dynvar
