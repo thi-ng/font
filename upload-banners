@@ -1,0 +1,6 @@
+#!/bin/sh
+
+aws s3 sync ./build/ s3://media.thi.ng/umbrella/banners/ \
+    --exclude "*.*" \
+    --include "*.svg" \
+    --profile toxi-s3 --acl public-read
