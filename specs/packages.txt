@@ -17,6 +17,7 @@ thi.ng/colored-noise
 thi.ng/compare
 thi.ng/compose
 thi.ng/csp
+thi.ng/date
 thi.ng/dcons
 thi.ng/defmulti
 thi.ng/dgraph
@@ -27,6 +28,7 @@ thi.ng/dot
 thi.ng/dl-asset
 thi.ng/dsp
 thi.ng/dsp-io-wav
+thi.ng/dual-algebra
 thi.ng/dynvar
 thi.ng/ecs
 thi.ng/egf
@@ -135,6 +137,7 @@ thi.ng/unionstruct
 thi.ng/umbrella
 thi.ng/vector-pools
 thi.ng/vectors
+thi.ng/viz
 thi.ng/webgl
 thi.ng/webgl-msdf
 thi.ng/webgl-shadertoy
