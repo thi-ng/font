@@ -2,9 +2,11 @@ docs.thi.ng
 thi.ng/adapt-dpi
 thi.ng/adjacency
 thi.ng/api
+thi.ng/args
 thi.ng/arrays
 thi.ng/associative
 thi.ng/atom
+thi.ng/base-n
 thi.ng/bench
 thi.ng/bencode
 thi.ng/binary
@@ -17,12 +19,14 @@ thi.ng/colored-noise
 thi.ng/compare
 thi.ng/compose
 thi.ng/csp
+thi.ng/csv
 thi.ng/date
 thi.ng/dcons
 thi.ng/defmulti
 thi.ng/dgraph
 thi.ng/dgraph-dot
 thi.ng/diff
+thi.ng/distance
 thi.ng/dlogic
 thi.ng/dot
 thi.ng/dl-asset
@@ -36,6 +40,8 @@ thi.ng/equiv
 thi.ng/errors
 thi.ng/fsm
 thi.ng/font
+thi.ng/fuzzy
+thi.ng/fuzzy-viz
 thi.ng/geom
 thi.ng/geom-accel
 thi.ng/geom-api
@@ -63,6 +69,7 @@ thi.ng/hdom-components
 thi.ng/hdom-mock
 thi.ng/hdom-tachyons
 thi.ng/heaps
+thi.ng/hex
 thi.ng/hiccup
 thi.ng/hiccup-canvas
 thi.ng/hiccup-carbon-icons
@@ -76,8 +83,10 @@ thi.ng/imgui
 thi.ng/interceptors
 thi.ng/intervals
 thi.ng/iterators
+thi.ng/ksuid
 thi.ng/layout
 thi.ng/leb128
+thi.ng/lowdisc
 thi.ng/lsys
 thi.ng/malloc
 thi.ng/math
@@ -89,6 +98,7 @@ thi.ng/oquery
 thi.ng/parse
 thi.ng/paths
 thi.ng/pixel
+thi.ng/pixel-io-netpbm
 thi.ng/pointfree
 thi.ng/pointfree-lang
 thi.ng/poisson
@@ -133,10 +143,12 @@ thi.ng/transducers-fsm
 thi.ng/transducers-hdom
 thi.ng/transducers-patch
 thi.ng/transducers-stats
+thi.ng/tsne
 thi.ng/unionstruct
 thi.ng/umbrella
 thi.ng/vector-pools
 thi.ng/vectors
+thi.ng/vclock
 thi.ng/viz
 thi.ng/webgl
 thi.ng/webgl-msdf
