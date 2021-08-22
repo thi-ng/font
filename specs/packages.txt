@@ -145,6 +145,7 @@ thi.ng/transducers-fsm
 thi.ng/transducers-hdom
 thi.ng/transducers-patch
 thi.ng/transducers-stats
+thi.ng/tsne
 thi.ng/unionstruct
 thi.ng/umbrella
 thi.ng/vector-pools
