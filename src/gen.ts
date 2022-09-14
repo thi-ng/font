@@ -1,20 +1,19 @@
-import { assert } from "@thi.ng/api";
+import { assert } from "@thi.ng/errors";
+import { readJSON } from "@thi.ng/file-io";
 import { asCubic, circle } from "@thi.ng/geom";
 import { serialize } from "@thi.ng/hiccup";
 import { svg } from "@thi.ng/hiccup-svg";
 import { map, range } from "@thi.ng/transducers";
 import { maddN2, mulN2, normalize } from "@thi.ng/vectors";
-import { readFileSync } from "fs";
 import { Font, Glyph, Path } from "opentype.js";
-import pkg from "../package.json";
 import {
     DEFAULT_CONFIG,
     FontConfig,
     GlyphSpec,
     LOGGER,
     RawFontConfig,
-    RawFontStyleSpec
-} from "./api";
+    RawFontStyleSpec,
+} from "./api.js";
 
 export const initConfig = (raw: RawFontConfig) => {
     raw = { ...DEFAULT_CONFIG, ...raw };
@@ -25,7 +24,7 @@ export const initConfig = (raw: RawFontConfig) => {
     const colWidth = d + hgap;
     const dir = normalize(null, [
         raw.slant[0] * colWidth,
-        raw.slant[1] * r + (raw.slant[1] - 1) * vgap
+        raw.slant[1] * r + (raw.slant[1] - 1) * vgap,
     ]);
     const min = mulN2([], dir, rmin * r - (Math.abs(rmin) - 1) * vgap);
     const max = mulN2([], dir, rmax * r + (rmax - 1) * vgap);
@@ -38,7 +37,7 @@ export const initConfig = (raw: RawFontConfig) => {
         ...map((i) => {
             const p = rowPoint(i + r / (r + vgap));
             return [p[0] + r, p[1]];
-        }, range(15))
+        }, range(15)),
     ];
 
     return <FontConfig>{
@@ -51,7 +50,7 @@ export const initConfig = (raw: RawFontConfig) => {
         grid,
         dotGrid,
         minY: min[1],
-        maxY: max[1]
+        maxY: max[1],
     };
 };
 
@@ -180,7 +179,7 @@ export const defGlyph = (
         advanceWidth: width
             ? width[0] * config.colWidth + width[1] * config.r
             : x + config.colWidth,
-        path
+        path,
     });
 };
 
@@ -192,13 +191,14 @@ export const defFont = (spec: RawFontStyleSpec) => {
         {
             name: ".notdef",
             id: 0,
-            g: ">"
+            g: ">",
         },
-        ...spec.glyphs
+        ...spec.glyphs,
     ].map((spec: GlyphSpec) => defGlyph(config, spec));
 
     LOGGER.info(`${glyphs.length} glyphs`);
 
+    const pkg = readJSON("package.json");
     return new Font({
         ...pkg.font,
         ...spec.font,
@@ -206,12 +206,12 @@ export const defFont = (spec: RawFontStyleSpec) => {
         unitsPerEm: 1024,
         ascender: config.maxY,
         descender: config.minY,
-        glyphs: glyphs
+        glyphs: glyphs,
     });
 };
 
 export const defFontFromFile = (specPath: string) =>
-    defFont(JSON.parse(readFileSync(specPath).toString()));
+    defFont(readJSON(specPath));
 
 export const renderSvgString = (str: string, font: Font, fontSize = 72) => {
     const paths = font.getPaths(str, 0, fontSize * 0.66, fontSize);
@@ -221,7 +221,17 @@ export const renderSvgString = (str: string, font: Font, fontSize = 72) => {
     const height = b.y2 - b.y1;
     return serialize(
         svg(
-            { width, height, viewBox: `${b.x1} ${b.y1} ${width} ${height}` },
+            {
+                width,
+                height,
+                viewBox: `${b.x1} ${b.y1} ${width} ${height}`,
+                stroke: "none",
+            },
+            [
+                "style",
+                {},
+                `path { fill: #333; } @media (prefers-color-scheme: dark) { path { fill: #ccc; } }`,
+            ],
             ...paths.map((p) => p.toSVG(3))
         )
     );

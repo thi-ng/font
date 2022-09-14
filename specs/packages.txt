@@ -12,12 +12,14 @@ thi.ng/bencode
 thi.ng/binary
 thi.ng/bitfield
 thi.ng/bitstream
+thi.ng/cellular
 thi.ng/cache
 thi.ng/checks
 thi.ng/color
 thi.ng/color-palettes
 thi.ng/colored-noise
 thi.ng/compare
+thi.ng/complex
 thi.ng/compose
 thi.ng/csp
 thi.ng/csv
@@ -28,6 +30,7 @@ thi.ng/dgraph
 thi.ng/dgraph-dot
 thi.ng/diff
 thi.ng/distance
+thi.ng/distance-transform
 thi.ng/dlogic
 thi.ng/dot
 thi.ng/dl-asset
@@ -39,6 +42,8 @@ thi.ng/ecs
 thi.ng/egf
 thi.ng/equiv
 thi.ng/errors
+thi.ng/expose
+thi.ng/file-io
 thi.ng/fsm
 thi.ng/font
 thi.ng/fuzzy
@@ -57,6 +62,7 @@ thi.ng/geom-isec
 thi.ng/geom-isoline
 thi.ng/geom-poly-utils
 thi.ng/geom-resample
+thi.ng/geom-sdf
 thi.ng/geom-splines
 thi.ng/geom-subdiv-curve
 thi.ng/geom-tessellate
@@ -88,9 +94,11 @@ thi.ng/k-means
 thi.ng/ksuid
 thi.ng/layout
 thi.ng/leb128
+thi.ng/logger
 thi.ng/lowdisc
 thi.ng/lsys
 thi.ng/malloc
+thi.ng/markdown-table
 thi.ng/math
 thi.ng/matrices
 thi.ng/memoize
@@ -100,6 +108,7 @@ thi.ng/oquery
 thi.ng/parse
 thi.ng/paths
 thi.ng/pixel
+thi.ng/pixel-dither
 thi.ng/pixel-io-netpbm
 thi.ng/pointfree
 thi.ng/pointfree-lang
@@ -109,7 +118,9 @@ thi.ng/prefixes
 thi.ng/quad-edge
 thi.ng/ramp
 thi.ng/random
+thi.ng/random-fxhash
 thi.ng/range-coder
+thi.ng/rasterize
 thi.ng/rdom
 thi.ng/rdom-canvas
 thi.ng/rdom-components
@@ -132,13 +143,17 @@ thi.ng/sexpr
 thi.ng/shader-ast
 thi.ng/shader-ast-glsl
 thi.ng/shader-ast-js
+thi.ng/shader-ast-optimize
 thi.ng/shader-ast-stdlib
 thi.ng/simd
 thi.ng/soa
 thi.ng/sparse
 thi.ng/strings
 thi.ng/system
+thi.ng/tangle
+thi.ng/testament
 thi.ng/text-canvas
+thi.ng/text-format
 thi.ng/transducers
 thi.ng/transducers-binary
 thi.ng/transducers-fsm
@@ -152,6 +167,7 @@ thi.ng/vector-pools
 thi.ng/vectors
 thi.ng/vclock
 thi.ng/viz
+thi.ng/wasm-api
 thi.ng/webgl
 thi.ng/webgl-msdf
 thi.ng/webgl-shadertoy

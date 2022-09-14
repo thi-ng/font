@@ -1,4 +1,4 @@
-import { ConsoleLogger, LogLevel } from "@thi.ng/api";
+import { ConsoleLogger, LogLevel } from "@thi.ng/logger";
 import { Vec } from "@thi.ng/vectors";
 
 export interface GlyphSpec {
@@ -87,7 +87,7 @@ export const DEFAULT_CONFIG: RawFontConfig = {
     r: 50,
     gap: [30, 15],
     extent: [-4, 11],
-    slant: [1, 7]
+    slant: [1, 7],
 };
 
 export const LOGGER = new ConsoleLogger("main", LogLevel.INFO);

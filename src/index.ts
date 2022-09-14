@@ -1,12 +1,14 @@
+import { readJSON } from "@thi.ng/file-io";
 import { slugify } from "@thi.ng/strings";
 import glob from "fast-glob";
 import { writeFileSync } from "fs";
-import pkg from "../package.json";
-import { LOGGER } from "./api";
-import { defFontFromFile } from "./gen";
+import { LOGGER } from "./api.js";
+import { defFontFromFile } from "./gen.js";
 
 const specs =
     process.argv.length > 2 ? process.argv.slice(2) : ["specs/*.json"];
+
+const pkg = readJSON("package.json");
 
 for (let fname of glob.sync(specs)) {
     LOGGER.info(`processing: ${fname}`);
@@ -19,7 +21,7 @@ for (let fname of glob.sync(specs)) {
         LOGGER.info(`writing OTF: ${basePath}.otf`);
         writeFileSync(`${basePath}.otf`, Buffer.from(font.toArrayBuffer()));
     } catch (e) {
-        LOGGER.severe(e.message + "\n");
+        LOGGER.severe((<Error>e).message + "\n");
         process.exit(1);
     }
 }
