@@ -6,6 +6,7 @@ thi.ng/args
 thi.ng/arrays
 thi.ng/associative
 thi.ng/atom
+thi.ng/axidraw
 thi.ng/base-n
 thi.ng/bench
 thi.ng/bencode
@@ -40,9 +41,11 @@ thi.ng/dual-algebra
 thi.ng/dynvar
 thi.ng/ecs
 thi.ng/egf
+thi.ng/emoji
 thi.ng/equiv
 thi.ng/errors
 thi.ng/expose
+thi.ng/fibers
 thi.ng/file-io
 thi.ng/fsm
 thi.ng/font
@@ -52,6 +55,7 @@ thi.ng/geom
 thi.ng/geom-accel
 thi.ng/geom-api
 thi.ng/geom-arc
+thi.ng/geom-axidraw
 thi.ng/geom-clip-line
 thi.ng/geom-clip-poly
 thi.ng/geom-closest-point
@@ -66,6 +70,7 @@ thi.ng/geom-sdf
 thi.ng/geom-splines
 thi.ng/geom-subdiv-curve
 thi.ng/geom-tessellate
+thi.ng/geom-trace-bitmap
 thi.ng/geom-voronoi
 thi.ng/gp
 thi.ng/grid-iterators
@@ -109,7 +114,9 @@ thi.ng/parse
 thi.ng/paths
 thi.ng/pixel
 thi.ng/pixel-dither
+thi.ng/pixel-io-geotiff
 thi.ng/pixel-io-netpbm
+thi.ng/pixel-io-pfm
 thi.ng/pointfree
 thi.ng/pointfree-lang
 thi.ng/poisson
@@ -154,6 +161,8 @@ thi.ng/tangle
 thi.ng/testament
 thi.ng/text-canvas
 thi.ng/text-format
+thi.ng/timestep
+thi.ng/transclude
 thi.ng/transducers
 thi.ng/transducers-binary
 thi.ng/transducers-fsm
@@ -162,12 +171,17 @@ thi.ng/transducers-patch
 thi.ng/transducers-stats
 thi.ng/tsne
 thi.ng/unionstruct
+thi.ng/units
 thi.ng/umbrella
 thi.ng/vector-pools
 thi.ng/vectors
 thi.ng/vclock
 thi.ng/viz
 thi.ng/wasm-api
+thi.ng/wasm-api-bindgen
+thi.ng/wasm-api-canvas
+thi.ng/wasm-api-dom
+thi.ng/wasm-api-schedule
 thi.ng/webgl
 thi.ng/webgl-msdf
 thi.ng/webgl-shadertoy
