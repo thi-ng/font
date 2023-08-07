@@ -147,7 +147,7 @@ export const defGlyph = (
             }
             case "h":
             case "H": {
-                const y = parseInt(g.substr(i + 1, 2), 16);
+                const y = parseInt(g.substring(i + 1, i + 3), 16);
                 path.extend(
                     bridge(
                         config,
@@ -161,13 +161,13 @@ export const defGlyph = (
                 break;
             }
             case "/": {
-                const y = parseInt(g.substr(i + 1, 2), 16);
+                const y = parseInt(g.substring(i + 1, i + 3), 16);
                 path.extend(diag(config, x, y >> 4, y & 0xf));
                 i += 3;
                 break;
             }
             default: {
-                const y = parseInt(g.substr(i, 2), 16);
+                const y = parseInt(g.substring(i, i + 2), 16);
                 path.extend(line(config, x, y >> 4, y & 0xf));
                 i += 2;
             }
