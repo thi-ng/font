@@ -1,8 +1,7 @@
-import { readJSON } from "@thi.ng/file-io";
+import { readJSON, writeText } from "@thi.ng/file-io";
 import { serialize } from "@thi.ng/hiccup";
 import { line, svg } from "@thi.ng/hiccup-svg";
 import { map, range } from "@thi.ng/transducers";
-import { writeFileSync } from "fs";
 import { Path } from "opentype.js";
 import { defGlyph, initConfig } from "./gen.js";
 
@@ -20,7 +19,7 @@ const glyphs = [
     },
 ].map((spec) => defGlyph(config, spec));
 
-writeFileSync(
+writeText(
     `build/diagram-${(Date.now() / 1000) | 0}.svg`,
     serialize(
         svg(

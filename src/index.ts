@@ -1,7 +1,6 @@
-import { readJSON } from "@thi.ng/file-io";
+import { readJSON, writeFile } from "@thi.ng/file-io";
 import { slugify } from "@thi.ng/strings";
 import glob from "fast-glob";
-import { writeFileSync } from "fs";
 import { LOGGER } from "./api.js";
 import { defFontFromFile } from "./gen.js";
 
@@ -19,7 +18,7 @@ for (let fname of glob.sync(specs)) {
         }-${(Date.now() / 1000) | 0}`;
 
         LOGGER.info(`writing OTF: ${basePath}.otf`);
-        writeFileSync(`${basePath}.otf`, Buffer.from(font.toArrayBuffer()));
+        writeFile(`${basePath}.otf`, Buffer.from(font.toArrayBuffer()));
     } catch (e) {
         LOGGER.severe((<Error>e).message + "\n");
         process.exit(1);
