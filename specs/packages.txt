@@ -13,8 +13,12 @@ thi.ng/bencode
 thi.ng/binary
 thi.ng/bitfield
 thi.ng/bitstream
+thi.ng/blurhash
+thi.ng/boids
+thi.ng/buffers
 thi.ng/cellular
 thi.ng/cache
+thi.ng/canvas
 thi.ng/checks
 thi.ng/color
 thi.ng/color-palettes
@@ -72,6 +76,7 @@ thi.ng/geom-subdiv-curve
 thi.ng/geom-tessellate
 thi.ng/geom-trace-bitmap
 thi.ng/geom-voronoi
+thi.ng/geom-webgl
 thi.ng/gp
 thi.ng/grid-iterators
 thi.ng/hdiff
@@ -87,10 +92,12 @@ thi.ng/hiccup-canvas
 thi.ng/hiccup-carbon-icons
 thi.ng/hiccup-css
 thi.ng/hiccup-html
+thi.ng/hiccup-html-parse
 thi.ng/hiccup-markdown
 thi.ng/hiccup-svg
 thi.ng/idgen
 thi.ng/iges
+thi.ng/imago
 thi.ng/imgui
 thi.ng/interceptors
 thi.ng/intervals
@@ -107,8 +114,10 @@ thi.ng/markdown-table
 thi.ng/math
 thi.ng/matrices
 thi.ng/memoize
+thi.ng/meta-css
 thi.ng/mime
 thi.ng/morton
+thi.ng/msgpack
 thi.ng/oquery
 thi.ng/parse
 thi.ng/paths
@@ -131,6 +140,7 @@ thi.ng/rasterize
 thi.ng/rdom
 thi.ng/rdom-canvas
 thi.ng/rdom-components
+thi.ng/rdom-forms
 thi.ng/resolve-map
 thi.ng/rle-pack
 thi.ng/router
@@ -164,6 +174,7 @@ thi.ng/text-format
 thi.ng/timestep
 thi.ng/transclude
 thi.ng/transducers
+thi.ng/transducers-async
 thi.ng/transducers-binary
 thi.ng/transducers-fsm
 thi.ng/transducers-hdom
