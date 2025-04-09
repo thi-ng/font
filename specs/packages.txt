@@ -14,6 +14,7 @@ thi.ng/bidir-index
 thi.ng/binary
 thi.ng/bitfield
 thi.ng/bitstream
+thi.ng/block-fs
 thi.ng/blurhash
 thi.ng/boids
 thi.ng/buffers
@@ -107,6 +108,7 @@ thi.ng/iterators
 thi.ng/k-means
 thi.ng/ksuid
 thi.ng/layout
+thi.ng/leaky-bucket
 thi.ng/leb128
 thi.ng/logger
 thi.ng/lowdisc
@@ -128,6 +130,7 @@ thi.ng/pixel
 thi.ng/pixel-convolve
 thi.ng/pixel-dither
 thi.ng/pixel-dominant-colors
+thi.ng/pixel-flow
 thi.ng/pixel-io-geotiff
 thi.ng/pixel-io-netpbm
 thi.ng/pixel-io-pfm
@@ -161,6 +164,7 @@ thi.ng/rstream-query
 thi.ng/rstream-state
 thi.ng/sax
 thi.ng/scenegraph
+thi.ng/server
 thi.ng/seq
 thi.ng/sexpr
 thi.ng/shader-ast
@@ -179,6 +183,7 @@ thi.ng/tangle
 thi.ng/testament
 thi.ng/text-canvas
 thi.ng/text-format
+thi.ng/timestamp
 thi.ng/timestep
 thi.ng/transclude
 thi.ng/transducers
