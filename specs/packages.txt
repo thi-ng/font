@@ -2,6 +2,7 @@ docs.thi.ng
 thi.ng/adapt-dpi
 thi.ng/adjacency
 thi.ng/api
+thi.ng/arcball
 thi.ng/args
 thi.ng/arrays
 thi.ng/associative
@@ -25,6 +26,7 @@ thi.ng/checks
 thi.ng/color
 thi.ng/color-palettes
 thi.ng/colored-noise
+thi.ng/column-store
 thi.ng/compare
 thi.ng/complex
 thi.ng/compose
@@ -110,6 +112,7 @@ thi.ng/ksuid
 thi.ng/layout
 thi.ng/leaky-bucket
 thi.ng/leb128
+thi.ng/lispy
 thi.ng/logger
 thi.ng/lowdisc
 thi.ng/lsys
@@ -119,6 +122,7 @@ thi.ng/math
 thi.ng/matrices
 thi.ng/memoize
 thi.ng/meta-css
+thi.ng/metrics
 thi.ng/mime
 thi.ng/morton
 thi.ng/msgpack
@@ -127,6 +131,7 @@ thi.ng/oquery
 thi.ng/parse
 thi.ng/paths
 thi.ng/pixel
+thi.ng/pixel-analysis
 thi.ng/pixel-convolve
 thi.ng/pixel-dither
 thi.ng/pixel-dominant-colors
@@ -134,6 +139,7 @@ thi.ng/pixel-flow
 thi.ng/pixel-io-geotiff
 thi.ng/pixel-io-netpbm
 thi.ng/pixel-io-pfm
+thi.ng/pixel-io-tiff
 thi.ng/pointfree
 thi.ng/pointfree-lang
 thi.ng/poisson
@@ -180,9 +186,12 @@ thi.ng/sparse-set
 thi.ng/strings
 thi.ng/system
 thi.ng/tangle
+thi.ng/tensors
 thi.ng/testament
+thi.ng/text-analysis
 thi.ng/text-canvas
 thi.ng/text-format
+thi.ng/text-format-image
 thi.ng/timestamp
 thi.ng/timestep
 thi.ng/transclude
@@ -199,6 +208,8 @@ thi.ng/umbrella
 thi.ng/unionstruct
 thi.ng/units
 thi.ng/uuid
+thi.ng/validate
+thi.ng/validate-schema
 thi.ng/vclock
 thi.ng/vector-pools
 thi.ng/vectors
