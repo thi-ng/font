@@ -13,7 +13,10 @@ for (let fname of glob.sync(specs)) {
     LOGGER.info(`processing: ${fname}`);
     try {
         const font = defFontFromFile(fname);
-        const basePath = `build/${slugify(font.names.fullName.en)}-${
+        // TODO check when new opentype.js type decls are available
+        // @ts-ignore
+        const name = font.names.unicode.fullName.en;
+        const basePath = `build/${slugify(name)}-${
             pkg.version
         }-${(Date.now() / 1000) | 0}`;
 

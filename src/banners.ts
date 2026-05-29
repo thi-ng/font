@@ -1,6 +1,6 @@
-import { readText, writeText } from "@thi.ng/file-io";
+import { readBinary, readText, writeText } from "@thi.ng/file-io";
 import { slugify } from "@thi.ng/strings";
-import { loadSync } from "opentype.js";
+import { parse } from "opentype.js";
 import { LOGGER } from "./api.js";
 import { renderSvgString } from "./gen.js";
 
@@ -10,7 +10,7 @@ if (process.argv.length < 3) {
 }
 
 const basePath = "./build";
-const font = loadSync(process.argv[2]);
+const font = parse(readBinary(process.argv[2]));
 const strings =
     process.argv.length > 3 ? process.argv[3] : "specs/packages.txt";
 
@@ -19,7 +19,7 @@ for (let pkg of readText(strings).split("\n")) {
         LOGGER.info(pkg);
         writeText(
             `${basePath}/${slugify(pkg)}.svg`,
-            renderSvgString(pkg, font)
+            renderSvgString(pkg, font),
         );
     }
 }
