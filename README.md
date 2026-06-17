@@ -33,7 +33,7 @@ future ideas.
 
 ## Download
 
-[Download font as OTF](./font/thing-regular-0.0.7.otf) (v0.0.7)
+[Download font as OTF](./font/thing-regular-0.0.8.otf) (v0.0.8)
 
 Big shouts to the [opentype.js](https://opentype.js.org/) &
 [FontForge](https://fontforge.org/) teams for simplifying OTF file
