@@ -9,15 +9,17 @@ const specs =
 
 const pkg = readJSON("package.json");
 
-for (let fname of glob.sync(specs)) {
-    LOGGER.info(`processing: ${fname}`);
+for (let specPath of glob.sync(specs)) {
+    LOGGER.info(`processing: ${specPath}`);
     try {
-        const font = defFontFromFile(fname);
+        const font = defFontFromFile(specPath);
         // TODO check when new opentype.js type decls are available
         // @ts-ignore
         const name = font.names.unicode.fullName.en;
+        // @ts-ignore
+        const version = font.names.unicode.version.en;
         const basePath = `build/${slugify(name)}-${
-            pkg.version
+            version
         }-${(Date.now() / 1000) | 0}`;
 
         LOGGER.info(`writing OTF: ${basePath}.otf`);

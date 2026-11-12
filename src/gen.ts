@@ -90,7 +90,7 @@ const bridge = (
     x: number,
     y: number,
     span: number,
-    xoff = 0
+    xoff = 0,
 ) => {
     const path = new Path();
     const [ax, ay] = config.grid[y];
@@ -120,11 +120,11 @@ const dot = (config: FontConfig, x: number, y: number) => {
 
 export const defGlyph = (
     config: FontConfig,
-    { id, name, g, width, x: _x }: GlyphSpec
+    { id, name, g, width, x: _x }: GlyphSpec,
 ) => {
     assert(
         id !== undefined || name !== undefined,
-        "missing `id` or `name` in glyph spec"
+        "missing `id` or `name` in glyph spec",
     );
     if (id === undefined) {
         id = name!.charCodeAt(0);
@@ -154,8 +154,8 @@ export const defGlyph = (
                         x,
                         y >> 4,
                         y & 0xf,
-                        g[i] === "H" ? config.r : 0
-                    )
+                        g[i] === "H" ? config.r : 0,
+                    ),
                 );
                 i += 3;
                 break;
@@ -200,9 +200,9 @@ export const defFont = (spec: RawFontStyleSpec) => {
 
     const pkg = readJSON("package.json");
     return new Font({
+        version: pkg.version,
         ...pkg.font,
         ...spec.font,
-        version: pkg.version,
         unitsPerEm: 1024,
         ascender: config.maxY,
         descender: config.minY,
@@ -232,7 +232,7 @@ export const renderSvgString = (str: string, font: Font, fontSize = 72) => {
                 {},
                 `path { fill: #333; } @media (prefers-color-scheme: dark) { path { fill: #ccc; } }`,
             ],
-            ...paths.map((p) => p.toSVG(3))
-        )
+            ...paths.map((p) => p.toSVG(3)),
+        ),
     );
 };

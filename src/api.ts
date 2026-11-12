@@ -1,5 +1,6 @@
 import { ConsoleLogger, LogLevel } from "@thi.ng/logger";
 import { Vec } from "@thi.ng/vectors";
+import { FontOptions } from "opentype.js";
 
 export interface GlyphSpec {
     id?: number;
@@ -74,11 +75,7 @@ export interface RawFontConfig {
 }
 
 export interface RawFontStyleSpec {
-    font: {
-        styleName: string;
-        designer: string;
-        designerURL: string;
-    };
+    font: FontOptions;
     config: RawFontConfig;
     glyphs: GlyphSpec[];
 }
