@@ -14,7 +14,8 @@
         "esModuleInterop": true,
         "moduleResolution": "bundler",
         "strict": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "types": ["node", "opentype.js"]
     },
     "include": ["./src/**/*.ts"],
     "exclude": ["./**/node_modules"]
